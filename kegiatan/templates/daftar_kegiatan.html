@@ -1,0 +1,13 @@
+<h1>Daftar Kegiatan</h1>
+<ul>
+    {% for item in kegiatan %}
+    <li>
+        <h2>{{ item.nama }}</h2>
+        <p>{{ item.tanggal }}</p>
+        <p>{{ item.deskripsi }}</p>
+        {% for gambar in item.gambar.all %}
+        <img src="{{ gambar.gambar.url }}" alt="{{ item.nama }}" width="200">
+        {% endfor %}
+    </li>
+    {% endfor %}
+</ul>

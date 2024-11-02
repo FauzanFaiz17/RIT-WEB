@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Kegiatan, GambarKegiatan
 
-# Register your models here.
+admin.site.register(Kegiatan)
+admin.site.register(GambarKegiatan)

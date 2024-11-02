@@ -1,0 +1,8 @@
+<h1>Tambah Kegiatan</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ kegiatan_form.as_p }}
+    <label for="gambar">Gambar Kegiatan:</label>
+    <input type="file" name="gambar" multiple>
+    <button type="submit">Simpan</button>
+</form>
