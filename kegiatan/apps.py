@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CompanyprofileConfig(AppConfig):
+class KegiatanConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'companyprofile'
+    name = 'kegiatan'
