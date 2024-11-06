@@ -1,0 +1,15 @@
+{% load static %} <!-- Tambahkan ini di baris pertama file template -->
+
+<header class="navbar-container">
+    <div class="logo">
+      <img src="{% static 'img/rit-header-logo.png' %}" alt="RIT">
+    </div>
+    <nav class="nav-list">
+      <ul>
+        <li><a href="#">Beranda</a></li>
+        <li><a href="#">Divisi IT</a></li>
+        <li><a href="#">Divisi Game</a></li>
+        <li><a href="{% url 'daftar_kegiatan' %}">Kegiatan</a></li>
+      </ul>
+    </nav>
+  </header>
