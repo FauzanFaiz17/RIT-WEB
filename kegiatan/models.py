@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
@@ -12,13 +12,24 @@ class ProfilPengguna(AbstractUser):
     )
     npm = models.CharField(max_length=15, unique=True)
     foto_profil = models.ImageField(upload_to='foto_profil/', blank=True, null=True)
-    tanggal_lahir = models.DateField()
+    tanggal_lahir = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Waktu pembuatan
     updated_at = models.DateTimeField(auto_now=True)      # Waktu pembaruan
 
+    groups = models.ManyToManyField(
+        Group,
+        related_name="profilpengguna_set",  # Ubah nama relasi di sini
+        blank=True,
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="profilpengguna_set",  # Ubah nama relasi di sini
+        blank=True,
+    )
+
     def __str__(self):
-        return f"{self.namadepan} {self.namabelakang}"
-    
+        return f"{self.nama_lengkap}"
+
     class Meta:
         verbose_name = "Profil Pengguna"
         verbose_name_plural = "Profil Pengguna"

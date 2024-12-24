@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'web_rit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rit',
+        'NAME': 'rit_web',
         'USER': 'root',
         'PASSWORD': '',
         'HOST':'localhost',
