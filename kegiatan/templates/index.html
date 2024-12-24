@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .backjum {
+            background-image: url("{% static "img/background1_1.png" %}");
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+        }
+        
+        .backabt {
+            background-image: url("{% static 'img/Background2.png' %}");
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+        }
+        
+        .backact {
+            background-image: url("{% static 'img/Background3.png' %}");
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+        }
+        
+        .backdoc {
+            background-image: url("{% static 'img/Background5.png' %}");
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;
+        }        
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="#" class="text-white text-decoration-none"><img class="logo-img img-fluid" src="{% static 'img/rit-header-logo.png' %}" alt="Logo-RIT"></a>
+                    </div>
+                    <div class="col-md-5">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a href="#" class="nav-link text-white">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="btn btn-dark dropdown-toggle text-white" href="#" id="communityDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Community
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="communityDropdown">
+                                    <li><a class="dropdown-item" href="#">Game Community</a></li>
+                                    <li><a class="dropdown-item" href="#">IT Community</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="btn btn-dark dropdown-toggle text-white" href="#" id="divisionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Division
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="divisionDropdown">
+                                    <li><a class="dropdown-item" href="webdev.html">Web Dev</a></li>
+                                    <li><a class="dropdown-item" href="#">Game Dev</a></li>
+                                    <li><a class="dropdown-item" href="#">Internet of Things </a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="#activities" class="nav-link text-white">Activities</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end btn-login">
+                        <a href="#" class="btn btn-light">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid backjum" style="height: 600px;">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-md-5">
+                    <img class="img-fluid" style="max-height: 350px; margin-right: 30px;" src="{% static 'img/rit-singlepage.png' %}" alt="Logo-RIT">
+                </div>
+                <div class="col-md-7">
+                    <h1 class="display-4 text-uppercase fs-1 fw-bold">Welcome to Republic Information of Technology</h1>
+                    <p class="lead">Wadah bagi mahasiswa Fakultas Komunikasi dan Informasi Universitas Garut untuk berkarya dan mengabdi</p>
+                    <a href="#" class="btn btn-info btn-lg text-white">Join us</a>
+                </div>
+            </div>
+        </div>
+    </div>            
+    
+    <div class="container-fluid backabt scroll-animation" style="height: 550px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7" style="margin-top: 100px;">
+                    <h1 class="scroll-animation">About us</h1>
+                    <p class="lh-base fs-5 scroll-animation" style="margin-top: 20px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus orci dignissim. Nunc rutrum aliquet lectus eget vestibulum. Cras quis libero risus. Pellentesque ornare lacinia vulputate. Suspendisse at risus nec nulla pretium auctor. Suspendisse nec ex dui. Nam hendrerit pretium lobortis. Duis metus purus, tempor nec tristique eget, lobortis vitae augue. Sed condimentum efficitur urna, eget tristique ante pretium non. Vivamus congue erat nibh, sed dictum dui tincidunt ut. Aliquam vitae consectetur quam, ut lobortis erat. Sed ornare scelerisque orci, id condimentum tellus auctor quis.</p>
+                </div>
+                <div class="col-md-5 text-center scroll-animation">
+                    <img src="{% static 'img/logo-text-hitam.png' %}" alt="Logo-RIT" class="img-fluid" style="max-height: 400px; margin-top: 100px;">
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <div class="container-fluid backact scroll-animation" id="activities">
+        <div class="container">
+            <h1 class="text-center fw-bold fs-1 mt-5">Activities</h1>
+            <p class="text-center">Berikut beberapa kegiatan yang kami lakukan :</p>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample1.png' %}" alt="Activity 1" class="shadow-lg img-fluid rounded-custom" title="Activity 1">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample2.png' %}" alt="Activity 2" class="shadow-lg img-fluid rounded-custom" title="Activity 2">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample3.png' %}" alt="Activity 3" class="shadow-lg img-fluid rounded-custom" title="Activity 3">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample4.png' %}" alt="Activity 4" class="shadow-lg img-fluid rounded-custom" title="Activity 4">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 50px;">
+                <a href="" class="btn btn-info btn-lg text-white">Load more</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid scroll-animation">
+        <div class="container">
+            <div class="row" style="margin-top: 100px;">
+                <div class="col-md-5 d-flex flex-column justify-content-center text-center">
+                    <h1>RIT Division</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="col-md-7 bg-info rounded2 p-4 d-flex align-items-center backdiv">
+                    <img style="max-height: 200px; margin-right: 30px;" src="{% static 'img/rit-singlepage.png' %}" class="img-fluid rounded" alt="Logo-RIT">
+                    <div class="info">
+                        <div class="activity-text" style="opacity: 0; transition: opacity 1s;">
+                            <h3 class="divisi-name"><a href="#" style="text-decoration: none; color: white;">Web Division</a></h3>
+                            <p class="divisi-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus.</p>
+                        </div>
+                        <div class="activity-text" style="opacity: 0; transition: opacity 1s;">
+                            <h3 class="divisi-name"><a href="#" style="text-decoration: none; color: white;">GameDev Division</a></h3>
+                            <p class="divisi-desc">Sed ac felis sit amet turpis tincidunt suscipit non ut dui.</p>
+                        </div>
+                        <div class="activity-text" style="opacity: 0; transition: opacity 1s;">
+                            <h3 class="divisi-name"><a href="#" style="text-decoration: none; color: white;">IoT Division</a></h3>
+                            <p class="divisi-desc">Fusce euismod nulla vel ante maximus, sit amet aliquam risus varius.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid backdoc scroll-animation">
+        <div class="container" style="margin-top: 100px;">
+            <h1 class="text-center">Documentation</h1>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <img class="img-fluid rounded-custom2" src="{% static 'img/sample1.png' %}" alt="">
+                    <img class="img-fluid rounded-custom2" style="margin-top: 30px;" src="{% static 'img/sample2.png' %}" alt="">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid rounded-custom2" style="border-radius: 20px; object-fit: cover; width: 100%; height: 100%;" src="{% static 'img/sample5.png' %}" alt="">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid rounded-custom2" style="max-height: 300px;" src="{% static 'img/sample4.png' %}" alt="">
+                    <img class="img-fluid rounded-custom2" style="max-height: 300px; margin-top: 30px;" src="{% static 'img/sample1.png' %}" alt="">
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 50px;">
+                <a href="" class="btn btn-info btn-lg text-white">Load more</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid bg-dark text-white" style="margin-top: 100px;">
+        <div class="container">
+            <div class="row">
+                <!-- Section 1: Logo and Address -->
+                <div class="col-md-3 mb-4">
+                    <img src="{% static 'img/logo-text-putih.png' %}" alt="Logo-RIT" class="img-fluid" style="max-height: 200px;">
+                    <p class="mt-3">Fakultas Komunikasi dan Informasi Uniga<br> 
+                        Jl. Prof K.H. Cecep Syarifudin d/h Jl. Raya Samarang No.52A
+                    </p>
+                </div>
+    
+                <!-- Section 2: Quick Links -->
+                <div class="col-md-3 mb-4" style="margin-top: 100px;">
+                    <h4>Quick Links</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Home</a></li>
+                        <li><a href="#" class="text-white">Community</a></li>
+                        <li><a href="#" class="text-white">Division</a></li>
+                        <li><a href="#" class="text-white">Activities</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Section 3: Contact Info -->
+                <div class="col-md-3 mb-4" style="margin-top: 100px;">
+                    <h4>Contact Us</h4>
+                    <ul class="list-unstyled">
+                        <li>Telp: 0899999</li>
+                        <li>Email: <a href="mailto:rit@gmail.com" class="text-white">rit@gmail.com</a></li>
+                        <li>Location: Garut City</li>
+                    </ul>
+                </div>
+    
+                <!-- Section 4: Social Media -->
+                <div class="col-md-3 mb-4" style="margin-top: 100px;">
+                    <h4>Follow Us On</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">@rituniga</a></li>
+                        <li><a href="#" class="text-white">rityt</a></li>
+                        <li><a href="#" class="text-white">rittwt</a></li>
+                        <li><a href="#" class="text-white">ritfb</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
