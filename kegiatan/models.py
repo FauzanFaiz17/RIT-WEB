@@ -4,17 +4,20 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 
 class ProfilPengguna(AbstractUser):
-    nama_lengkap = models.CharField(max_length=100)
-    no_hp = models.CharField(max_length=15)
-    prodi = models.CharField(max_length=100)
+    nama_lengkap = models.CharField(max_length=100, blank=True, default="Tidak Diisi")
+    no_hp = models.CharField(max_length=15, blank=True, default="0000000000")
+    prodi = models.CharField(max_length=100, blank=True, default="Tidak Diisi")
     semester = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(14)]
+        validators=[MinValueValidator(1), MaxValueValidator(14)],
+        blank=True,
+        null=True,
+        default=1
     )
-    npm = models.CharField(max_length=15, unique=True)
+    npm = models.CharField(max_length=15, unique=True, blank=True, null=True)
     foto_profil = models.ImageField(upload_to='foto_profil/', blank=True, null=True)
     tanggal_lahir = models.DateField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)  # Waktu pembuatan
-    updated_at = models.DateTimeField(auto_now=True)      # Waktu pembaruan
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     groups = models.ManyToManyField(
         Group,
