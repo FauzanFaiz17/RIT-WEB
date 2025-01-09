@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, LoginForm, KegiatanForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 
@@ -22,20 +22,44 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            if user is not None:
-                login(request, user)
-                return redirect('dashboard')
-            else:
-                messages.error(request, 'Username atau password salah')
-    else:
-        form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(f"Username: {username}, Password: {password}")  # Debug Input
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            print(f"Login berhasil: {user.username}")  # Debug User Sukses
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            # Debug Informasi Pengguna
+            User = get_user_model()
+            try:
+                existing_user = User.objects.get(username=username)
+                print("User ditemukan, tapi password salah.")  # Debug Password
+            except User.DoesNotExist:
+                print("User tidak ditemukan.")  # Debug Username
+
+            messages.error(request, 'Username atau password salah.')
+    return render(request, 'login.html')
 
 def user_logout(request):
     return render(request, 'login.html')
+
+def icons(request):
+    return render(request, 'icons.html')
+
+def map(request):
+    return render(request, 'map.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def tables(request):
+    return render(request, 'tables.html')
+
+def struktur(request):
+    return render(request, 'struktur.html')
 
 @login_required
 def dashboard(request):
