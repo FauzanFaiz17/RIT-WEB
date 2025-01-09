@@ -100,19 +100,34 @@ class Gambar(models.Model):
         verbose_name = "Gambar"
         verbose_name_plural = "Gambar"
 
-class Backlog(models.Model):
+class Task(models.Model):
     nama = models.CharField(max_length=100)
-    tanggal_mulai = models.DateField()
-    tanggal_selesai = models.DateField()
-    pengguna = models.ForeignKey(ProfilPengguna, on_delete=models.CASCADE, related_name='backlog')
+    deskripsi = models.TextField(blank=True)
+    pengguna = models.ForeignKey('ProfilPengguna', on_delete=models.CASCADE, related_name='tasks')
 
-    def clean(self):
-        if self.tanggal_selesai < self.tanggal_mulai:
-            raise ValidationError("Tanggal selesai tidak boleh lebih awal dari tanggal mulai")
-    
     def __str__(self):
         return self.nama
-    
+
     class Meta:
-        verbose_name = "Backlog"
-        verbose_name_plural = "Backlog"
+        verbose_name = "Task"
+        verbose_name_plural = "Tasks"
+
+
+class SubTask(models.Model):
+    nama = models.CharField(max_length=100)
+    deskripsi = models.TextField(blank=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='subtasks')
+    tanggal_mulai = models.DateField()
+    tanggal_selesai = models.DateField()
+
+    def clean(self):
+        # Validasi tanggal
+        if self.tanggal_selesai < self.tanggal_mulai:
+            raise ValidationError("Tanggal selesai tidak boleh lebih awal dari tanggal mulai")
+
+    def __str__(self):
+        return f"{self.nama} (Task: {self.task.nama})"
+
+    class Meta:
+        verbose_name = "SubTask"
+        verbose_name_plural = "SubTasks"

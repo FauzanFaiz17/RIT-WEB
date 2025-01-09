@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ProfilPengguna, Komunitas, Divisi, Kegiatan, Gambar, Backlog
+from .models import ProfilPengguna, Komunitas, Divisi, Kegiatan, Gambar, Task, SubTask
 
 @admin.register(ProfilPengguna)
 class ProfilPenggunaAdmin(admin.ModelAdmin):
@@ -29,7 +29,17 @@ class GambarAdmin(admin.ModelAdmin):
     list_display = ('kegiatan',)
     search_fields = ('kegiatan__nama',)
 
-@admin.register(Backlog)
-class BacklogAdmin(admin.ModelAdmin):
-    list_display = ('nama', 'pengguna', 'tanggal_mulai', 'tanggal_selesai')
-    search_fields = ('nama', 'pengguna__namadepan', 'pengguna__namabelakang')
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nama', 'pengguna')  # Kolom yang ditampilkan di daftar admin
+    search_fields = ('nama', 'pengguna__namadepan', 'pengguna__namabelakang')  # Pencarian
+    list_filter = ('pengguna',)  # Filter berdasarkan pengguna
+    ordering = ('id',)
+
+
+@admin.register(SubTask)
+class SubTaskAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nama', 'task', 'tanggal_mulai', 'tanggal_selesai')
+    search_fields = ('nama', 'task__nama')  # Pencarian
+    list_filter = ('task', 'tanggal_mulai')  # Filter berdasarkan task dan tanggal
+    ordering = ('id',)
