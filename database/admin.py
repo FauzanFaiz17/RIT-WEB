@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ProfilPengguna, Komunitas, Divisi, Kegiatan, Gambar, Backlog
+from .models import ProfilPengguna, Komunitas, Divisi, Kegiatan, Gambar, Project, Taks, SubTaks
 
 @admin.register(ProfilPengguna)
 class ProfilPenggunaAdmin(admin.ModelAdmin):
@@ -29,7 +29,23 @@ class GambarAdmin(admin.ModelAdmin):
     list_display = ('kegiatan',)
     search_fields = ('kegiatan__nama',)
 
-@admin.register(Backlog)
-class BacklogAdmin(admin.ModelAdmin):
-    list_display = ('nama', 'pengguna', 'tanggal_mulai', 'tanggal_selesai')
-    search_fields = ('nama', 'pengguna__namadepan', 'pengguna__namabelakang')
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nama', 'kepala', 'divisi')
+    search_fields = ('nama', 'kepala__namadepan', 'kepala__namabelakang')
+    list_filter = ('divisi', 'kepala')
+    ordering = ('id',)
+
+@admin.register(Taks)
+class TaksAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nama', 'project', 'tanggal_mulai', 'tanggal_selesai', 'status')
+    search_fields = ('nama', 'project__nama')
+    list_filter = ('project', 'status', 'tanggal_mulai')
+    ordering = ('id',)
+
+@admin.register(SubTaks)
+class SubTaksAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nama', 'taks', 'pengguna', 'tanggal_mulai', 'tanggal_selesai', 'status')
+    search_fields = ('nama', 'taks__nama', 'pengguna__namadepan', 'pengguna__namabelakang')
+    list_filter = ('taks', 'status', 'tanggal_mulai')
+    ordering = ('id',)
