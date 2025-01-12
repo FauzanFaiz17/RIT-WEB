@@ -3,20 +3,25 @@
 {% block title %} Profile {% endblock title %}
 
 {% block content %}
+<style>
+  body {
+    font-family: 'Nunito', sans-serif;
+  }
+</style>
 
 <div class="header pb-6 d-flex align-items-center" 
-     style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+     style="min-height: 400px; background-image: url(/static/assets/img/theme/fko.png); background-size: cover; background-position: center top;">
   <!-- Mask -->
   <span class="mask bg-gradient-default opacity-8"></span>
   <!-- Header container -->
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
-      <div class="col-lg-7 col-md-10">
+      <div class="col-lg-7 col-md-10 mt-2">
         <h1 class="display-2 text-white"> 
           Hello {{ request.user.username }}
         </h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
-        <a href="#!" class="btn btn-neutral">Edit profile</a>
+        <p class="text-white mt-0 mb-2">Selamat datang di komunitas Unit kegiatan Mahasiswa Republic of Information Technology!
+          Di sini, kita berbagi minat dan passion yang sama. Mari berkolaborasi!</p>
       </div>
     </div>
   </div>
@@ -92,7 +97,7 @@
         </div>
         <div class="card-body">
           <form>
-            <h6 class="heading-small text-muted mb-4">User information</h6>
+            <h6 class="heading-small text-muted mb-4">Informasi Pengguna</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
@@ -111,60 +116,56 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">First name</label>
-                    <input type="text" id="input-first-name" class="form-control" placeholder="First name" value="Lucky">
+                    <label class="form-control-label" for="input-nama_lengkap">Nama lengkap</label>
+                    <input type="text" id="input-nama_lengkap" class="form-control" placeholder="Nama lengkap" value="{{ request.user.nama_lengkap }}">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Last name</label>
-                    <input type="text" id="input-last-name" class="form-control" placeholder="Last name" value="Jesse">
+                    <label class="form-control-label" for="input-semester">Semester</label>
+                    <input type="email" id="input-semester" class="form-control" placeholder="{{ request.user.semester }}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="nama_lengkap">Prodi</label>
+                    <input type="text" id="input-jurusan" class="form-control" placeholder="Jurusan" value="Lucky">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="npm">NPM</label>
+                    <input type="text" id="input-npm" class="form-control" placeholder="No NPM" value="Lucky">
                   </div>
                 </div>
               </div>
             </div>
             <hr class="my-4" />
-            <!-- Address -->
-            <h6 class="heading-small text-muted mb-4">Contact information</h6>
+            <h6 class="heading-small text-muted mb-4">Informasi Komunitas</h6>
             <div class="pl-lg-4">
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-address">Address</label>
-                    <input id="input-address" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
+                    <label class="form-control-label" for="input-username">Username</label>
+                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Email address</label>
+                    <input type="email" id="input-email" class="form-control" placeholder="{{ request.user.email }}">
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-city">City</label>
-                    <input type="text" id="input-city" class="form-control" placeholder="City" value="New York">
+                    <label class="form-control-label" for="input-nama_lengkap">Nama lengkap</label>
+                    <input type="text" id="input-nama_lengkap" class="form-control" placeholder="Nama lengkap" value="{{ request.user.nama_lengkap }}">
                   </div>
                 </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-country">Country</label>
-                    <input type="text" id="input-country" class="form-control" placeholder="Country" value="United States">
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-country">Postal code</label>
-                    <input type="number" id="input-postal-code" class="form-control" placeholder="Postal code">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr class="my-4" />
-            <!-- Description -->
-            <h6 class="heading-small text-muted mb-4">About me</h6>
-            <div class="pl-lg-4">
-              <div class="form-group">
-                <label class="form-control-label">About Me</label>
-                <textarea rows="4" class="form-control" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
-              </div>
-            </div>
           </form>
         </div>
       </div>

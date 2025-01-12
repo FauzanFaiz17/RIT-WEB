@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import ProfilPengguna, Kegiatan
+from .models import ProfilPengguna, Kegiatan, Gambar
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -44,3 +44,15 @@ class KegiatanForm(forms.ModelForm):
             'tanggal_mulai': forms.DateInput(attrs={'type': 'date'}),
             'tanggal_selesai': forms.DateInput(attrs={'type': 'date'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+class GambarForm(forms.ModelForm):
+    gambar = forms.ImageField(required=False)  # Tidak wajib diisi
+
+    class Meta:
+        model = Gambar
+        fields = ['gambar']

@@ -1,0 +1,115 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Events {% endblock title %}
+
+{% block content %}
+<style>
+    .button1 {
+        background-color: #D9D9D933;
+        font-weight: bolder;
+    }
+</style>
+<div class="header pb-6" style="background-color: #00c0f0;">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Page</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="#"><i style="color: #00c0f0;" class="ni ni-calendar-grid-58"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#" style="color: #00c0f0; font-weight: bolder;">Events</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0" style="background-color: #019BC7; display: flex; justify-content: start; align-items: center;">
+                    <i class="ni ni-calendar-grid-58 text-white"></i>
+                    <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">Events</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3" style="width: fit-content;">
+                        <a href="{% url "tambah_kegiatan" %}" class="btn d-flex justify-content-start align-items-center button1">
+                            <i class="ni ni-fat-add" style="margin-right: 10px;"></i>Tambahkan
+                        </a>
+                    </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead style="background-color: #D9D9D933;">
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Tanggal Dimulai</th>
+                                    <th scope="col">Tanggal Selesai</th>
+                                    <th scope="col">Jenis Event</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Gambar</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                {% for kegiatan in kegiatan %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ kegiatan.nama }}</td>
+                                    <td>{{ kegiatan.tanggal_mulai }}</td>
+                                    <td>{{ kegiatan.tanggal_selesai }}</td>
+                                    <td>{{ kegiatan.get_jenis_display }}</td>
+                                    <td>{{ kegiatan.get_status_display }}</td>
+                                    <td>
+                                        {% for gambar in kegiatan.gambar.all %}
+                                            {% if gambar.gambar %}
+                                                <img src="{{ gambar.gambar.url }}" alt="Gambar {{ kegiatan.nama }}" style="width: 100px; height: auto; margin-right: 5px;">
+                                            {% else %}
+                                                <span class="text-muted">Tidak ada gambar</span>
+                                            {% endif %}
+                                        {% empty %}
+                                            <span class="text-muted">Tidak ada gambar</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                <a class="dropdown-item" href="{% url "edit_kegiatan" id=kegiatan.id %}">Edit</a>
+                                                <a class="dropdown-item" href="#">Detail</a>
+                                                <a class="dropdown-item" href="{% url 'hapus_kegiatan' id=kegiatan.id %}">Hapus</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center">Belum ada kegiatan</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "includes/footer-fullscreen.html" %}
+{% endblock content %}
+
+{% block javascripts %}{% endblock javascripts %}

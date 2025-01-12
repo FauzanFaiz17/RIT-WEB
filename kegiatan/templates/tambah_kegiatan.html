@@ -1,0 +1,126 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tambah Kegiatan {% endblock title %}
+
+{% block content %}
+
+<div class="header pb-6" style="background-color: #00c0f0;">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Page</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item">
+                                <a href="#"><i style="color: #00c0f0;" class="ni ni-calendar-grid-58"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#" style="color: #00c0f0;">Events</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#" style="color: #00c0f0; font-weight: bolder;">Tambah Kegiatan</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0" style="background-color: #019BC7; display: flex; justify-content: start; align-items: center;">
+                    <i class="ni ni-fat-add text-white"></i>
+                    <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">Tambah Kegiatan</h3>
+                </div>
+                <!-- Form -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="pl-lg-4 mt-3">
+                        <!-- Nama -->
+                        <div class="form-group">
+                            <label class="form-control-label" for="nama">Nama</label>
+                            {{ kegiatan_form.nama }}
+                        </div>
+                        <!-- Tanggal Mulai & Tanggal Selesai -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="tanggal_mulai">Tanggal Mulai</label>
+                                    {{ kegiatan_form.tanggal_mulai }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="tanggal_selesai">Tanggal Selesai</label>
+                                    {{ kegiatan_form.tanggal_selesai }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Status & Jenis -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="status">Status</label>
+                                    {{ kegiatan_form.status }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="jenis">Jenis Kegiatan</label>
+                                    {{ kegiatan_form.jenis }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Divisi & Komunitas -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="divisi">Divisi</label>
+                                    {{ kegiatan_form.divisi }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="komunitas">Komunitas</label>
+                                    {{ kegiatan_form.komunitas }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Deskripsi -->
+                        <div class="form-group">
+                            <label class="form-control-label" for="deskripsi">Deskripsi</label>
+                            {{ kegiatan_form.deskripsi }}
+                        </div>
+                    </div>
+                    <!-- Gambar -->
+                    <div class="pl-lg-4 mt-3">
+                        <h4>Upload Gambar</h4>
+                        <div class="form-group">
+                            {{ gambar_formset.management_form }}
+                            {% for form in gambar_formset %}
+                                <div class="mb-3">
+                                    {{ form.gambar }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="pl-lg-4 mt-3" style="margin-bottom: 20px;">
+                        <button type="submit" class="btn" style="background-color: #00c0f0">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "includes/footer-fullscreen.html" %}
+
+{% endblock content %}
+
+{% block javascripts %}{% endblock javascripts %}

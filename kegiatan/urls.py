@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.urls import path
+from django.conf.urls.static import static
 from . import views
-from .views import register, user_login, user_logout, dashboard, icons, map, profile, tables, struktur
+from .views import register, user_login, user_logout, dashboard, icons, map, profile, tables, struktur, it_com, web_dev, events, tambah_kegiatan, hapus_kegiatan, edit_kegiatan
 
 urlpatterns = [
     path('', views.index, name='home'),
@@ -14,4 +15,13 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('tables/', tables, name='tables'),
     path('struktur/', struktur, name='struktur'),
+    path('struktur/it_com', it_com, name='it_com'),
+    path('struktur/it_com/web_dev', web_dev, name='web_dev'),
+    path('events/', events, name='events'),
+    path('events/tambah_kegiatan', tambah_kegiatan, name='tambah_kegiatan'),
+    path('kegiatan/delete/<int:id>/', hapus_kegiatan, name='hapus_kegiatan'),
+    path('kegiatan/edit/<int:id>/', edit_kegiatan, name='edit_kegiatan'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

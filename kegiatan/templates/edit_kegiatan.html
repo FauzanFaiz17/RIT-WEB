@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Edit Kegiatan{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Kegiatan: {{ kegiatan.nama }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Informasi Kegiatan</h5>
+                {{ kegiatan_form.as_p }}
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">Gambar</h5>
+                {{ gambar_formset.management_form }}
+                {% for form in gambar_formset %}
+                <div class="form-row mb-2">
+                    <div class="col">
+                        {{ form.gambar.label_tag }}
+                        {{ form.gambar }}
+                    </div>
+                    <div class="col-auto">
+                        {{ form.DELETE }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3 mb-4">Simpan Perubahan</button>
+        <a href="{% url 'events' %}" class="btn btn-secondary mt-3 mb-4">Batal</a>
+    </form>
+</div>
+{% endblock content %}

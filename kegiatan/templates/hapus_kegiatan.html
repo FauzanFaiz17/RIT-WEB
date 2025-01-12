@@ -1,0 +1,27 @@
+<!-- konfirmasi_hapus_kegiatan.html -->
+{% extends 'layouts/base.html' %}
+
+{% block title %} Konfirmasi Hapus Kegiatan {% endblock title %}
+
+{% block content %}
+<style>
+    .bg-hapus {
+        background-color: #00c0f0;
+    }
+</style>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-hapus">
+            <h3 class="text-white" style="font-size: 20px;">Konfirmasi Hapus Kegiatan</h3>
+        </div>
+        <div class="card-body">
+            <p>Apakah Anda yakin ingin menghapus kegiatan <strong>{{ kegiatan.nama }}</strong>?</p>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Hapus</button>
+                <a href="{% url 'events' %}" class="btn btn-secondary">Batal</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

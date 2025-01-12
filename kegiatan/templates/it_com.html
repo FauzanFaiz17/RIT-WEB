@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Struktur {% endblock title %}
+{% block title %} Struktur - IT Community {% endblock title %}
 
 {% block content %}
 
@@ -36,7 +36,8 @@
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
               <ol class="breadcrumb breadcrumb-links">
                 <li class="breadcrumb-item"><a href="#"><i style="color: #00c0f0;" class="ni ni-bullet-list-67"></i></a></li>
-                <li class="breadcrumb-item"><a style="color: #00c0f0; font-weight: bolder;" {% if 'it_com' in segment %} active {% endif %} href="/struktur">Struktur</a></li>
+                <li class="breadcrumb-item"><a {% if 'it_com' in segment %} active {% endif %} href="/struktur" style="color: #00c0f0;">Struktur</a></li>
+                <li class="breadcrumb-item"><a {% if 'it_com' in segment %} active {% endif %} href="/struktur/it_com" style="color: #00c0f0; font-weight: bolder;">IT Community</a></li>
               </ol>
             </nav>
           </div>
@@ -51,21 +52,22 @@
       <div class="col">
         <div class="card">
           <!-- Card header -->
-          <div class="card-header border-0" style="background-color: #019BC7;">
-            <h3 class="mb-0 text-white text-uppercase">Struktur Komunitas</h3>
+          <div class="card-header border-0" style="background-color: #019BC7; display: flex; justify-content: start; align-items: center;">
+            <i class="ni ni-world-2 text-white"></i>
+            <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">IT Community</h3>
           </div>
           <div class="card-body">
             <div class="it_com">
-              <i class="ni ni-world-2"></i>
-              <a style="color: black; margin-left: 10px;" {% if 'it_com' in segment %} active {% endif %} href="/struktur/it_com">IT Community</a>
+              <i class="ni ni-html5"></i>
+              <a {% if 'web_dev' in segment %} active {% endif %} href="/struktur/it_com/web_dev" style="color: black; margin-left: 10px;">WebDev Division</a>
             </div>
             <div class="gm_com">
               <i class="ni ni-controller"></i>
-              <a href="#" style="color: black; margin-left: 10px;">Gaming Community</a>
+              <a href="#" style="color: black; margin-left: 10px;">GameDev Division</a>
             </div>
             <div class="ot_com">
-              <i class="ni ni-fat-add"></i>
-              <a href="#" style="color: black; margin-left: 10px;">Others</a>
+              <i class="ni ni-app"></i>
+              <a href="#" style="color: black; margin-left: 10px;">IoT Division</a>
             </div>
           </div>
         </div>

@@ -1,8 +1,7 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import ProfilPengguna
+from .models import ProfilPengguna, Kegiatan, Komunitas, Divisi, Gambar
 
-class ProfilPenggunaAdmin(UserAdmin):
+class ProfilPenggunaAdmin(admin.ModelAdmin):
     # Field yang akan ditampilkan di daftar pengguna di admin
     list_display = ('username', 'email', 'is_staff', 'is_superuser', 'is_active', 'last_login')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
@@ -25,3 +24,6 @@ class ProfilPenggunaAdmin(UserAdmin):
     )
 
 admin.site.register(ProfilPengguna, ProfilPenggunaAdmin)
+admin.site.register(Kegiatan)
+admin.site.register(Divisi)
+admin.site.register(Komunitas)
