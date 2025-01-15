@@ -10,173 +10,157 @@
 </style>
 
 <div class="header pb-6 d-flex align-items-center" 
-     style="min-height: 400px; background-image: url(/static/assets/img/theme/fko.png); background-size: cover; background-position: center top;">
-  <!-- Mask -->
-  <span class="mask bg-gradient-default opacity-8"></span>
-  <!-- Header container -->
+     style="min-height: 350px; background-image: linear-gradient(rgba(6, 197, 245, 0.7), rgba(0, 192, 240, 0.7)), url(/static/assets/img/theme/fko.png); background-size: cover; background-position: center top;">
+  <span class="mask opacity-6"></span>
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10 mt-2">
         <h1 class="display-2 text-white"> 
-          Hello {{ request.user.username }}
+          Hello {{ request.user.nama_lengkap }}
         </h1>
-        <p class="text-white mt-0 mb-2">Selamat datang di komunitas Unit kegiatan Mahasiswa Republic of Information Technology!
+        <p class="text-white mt-0 mb-2">Selamat datang di komunitas Unit Kegiatan Mahasiswa Republic of Information Technology!
           Di sini, kita berbagi minat dan passion yang sama. Mari berkolaborasi!</p>
       </div>
     </div>
   </div>
 </div>
-<!-- Page content -->
+
 <div class="container-fluid mt--6">
   <div class="row">
+    <!-- Kartu Profil -->
     <div class="col-xl-4 order-xl-2">
-      <div class="card card-profile">
-        <img src="/static/assets/img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+      <div class="card card-profile" style="background-image: url(/static/assets/img/theme/img-1-1000x600.jpg); background-size: cover; background-position: center top;">
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
-            <div class="card-profile-image">
-              <a href="#">
-                <img src="/static/assets/img/theme/team-4.jpg" class="rounded-circle">
-              </a>
+            <div class="card-profile-image" style="margin-top: 100px;">
+              <form id="updatePhotoForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" id="uploadPhotoInput" name="foto_profil" style="display: none;" onchange="document.getElementById('updatePhotoForm').submit();">
+                <a href="#" onclick="document.getElementById('uploadPhotoInput').click();">
+                  {% if request.user.foto_profil %}
+                    <img src="{{ request.user.foto_profil.url }}" class="rounded-circle" style="max-width: 200px; max-height: 150px; object-fit: cover;">
+                  {% else %}
+                    <img src="/static/assets/img/theme/team-5.jpg" class="rounded-circle" style="max-width: 150px;">
+                  {% endif %}
+                </a>
+              </form>
             </div>
           </div>
         </div>
-        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          <div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
-            <a href="#" class="btn btn-sm btn-default float-right">Message</a>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <div class="row">
-            <div class="col">
-              <div class="card-profile-stats d-flex justify-content-center">
-                <div>
-                  <span class="heading">22</span>
-                  <span class="description">Friends</span>
-                </div>
-                <div>
-                  <span class="heading">10</span>
-                  <span class="description">Photos</span>
-                </div>
-                <div>
-                  <span class="heading">89</span>
-                  <span class="description">Comments</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="text-center">
-            <h5 class="h3">
-              {{ request.user.username }}
-            </h5>
-            <div class="h5 font-weight-300">
-              {{ request.user.email }}
-            </div>
-            <div class="h5 mt-4">
-              <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
-            </div>
-            <div>
-              <i class="ni education_hat mr-2"></i>University of Computer Science
-            </div>
+        <div class="card-body rounded-bottom" style="margin-top: 80px; background-color: white;">
+          <h5 class="h3">{{ request.user.nama_lengkap }}</h5>
+          <div class="mt-2">
+            <p><strong>Prodi:</strong> {{ request.user.prodi }}</p>
+            <p><strong>Semester:</strong> {{ request.user.semester }}</p>
+            <p><strong>Komunitas:</strong> {{ request.user.komunitas }}</p>
+            <p><strong>Divisi:</strong> {{ request.user.divisi }}</p>
+            <p><strong>Jabatan:</strong> {{ request.user.jabatan }}</p>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Form Edit Profil -->
     <div class="col-xl-8 order-xl-1">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header" style="background-color: #019BC7;">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Edit profile </h3>
+              <h3 class="mb-0">Edit Profile</h3>
             </div>
             <div class="col-4 text-right">
-              <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+              <button type="submit" form="profilForm" class="btn btn-sm" style="background-color: #00c0f0; color: white;">Update</button>
             </div>
           </div>
         </div>
         <div class="card-body">
-          <form>
-            <h6 class="heading-small text-muted mb-4">Informasi Pengguna</h6>
+          <form id="profilForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h6 class="heading-small text-muted mb-2">Informasi Pengguna</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-username">Username</label>
-                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}">
+                    <label class="form-control-label">Username</label>
+                    <input type="text" name="username" class="form-control" value="{{ request.user.username }}">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-email">Email address</label>
-                    <input type="email" id="input-email" class="form-control" placeholder="{{ request.user.email }}">
+                    <label class="form-control-label">Email</label>
+                    <input type="email" name="email" class="form-control" value="{{ request.user.email }}">
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-nama_lengkap">Nama lengkap</label>
-                    <input type="text" id="input-nama_lengkap" class="form-control" placeholder="Nama lengkap" value="{{ request.user.nama_lengkap }}">
+                    <label class="form-control-label">Nama lengkap</label>
+                    <input type="text" name="nama_lengkap" class="form-control" value="{{ request.user.nama_lengkap  }}">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-semester">Semester</label>
-                    <input type="email" id="input-semester" class="form-control" placeholder="{{ request.user.semester }}">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="nama_lengkap">Prodi</label>
-                    <input type="text" id="input-jurusan" class="form-control" placeholder="Jurusan" value="Lucky">
+                    <label class="form-control-label">Semester</label>
+                    <input type="number" name="semester" class="form-control" value="{{ request.user.semester }}">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="npm">NPM</label>
-                    <input type="text" id="input-npm" class="form-control" placeholder="No NPM" value="Lucky">
+                    <label class="form-control-label">Prodi</label>
+                    <select name="prodi" class="form-control">
+                      <option value="TI" {% if request.user.prodi == "TI" %}selected{% endif %}>Teknologi Informasi</option>
+                      <option value="RPL" {% if request.user.prodi == "RPL" %}selected{% endif %}>Rekayasa Perangkat Lunak</option>
+                      <option value="RSK" {% if request.user.prodi == "RSK" %}selected{% endif %}>Rekayasa Sistem Komputer</option>
+                    </select>
+                  </div>
+                </div>                
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label">NPM</label>
+                    <input type="number" name="npm" class="form-control" value="{{ request.user.npm }}">
                   </div>
                 </div>
-              </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label">Tanggal lahir</label>
+                    <input type="date" name="tanggal_lahir" class="form-control" value="{{ request.user.tanggal_lahir }}">
+                  </div>
+                </div>
+              </form>
+              <form id="profilForm" method="post" enctype="multipart/form-data">
+                <h6 class="heading-small text-muted mb-2">Informasi Komunitas</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label">Komunitas</label>
+                        <input type="text" name="komunitas" class="form-control" value="{{ request.user.komunitas }}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label">Divisi</label>
+                        <input type="text" name="divisi" class="form-control" value="{{ request.user.divisi }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label">Jabatan</label>
+                        <input type="text" name="jabatan" class="form-control" value="{{ request.user.jabatan }}">
+                      </div>
+                    </div>
+                  </form>
+                </div>
             </div>
-            <hr class="my-4" />
-            <h6 class="heading-small text-muted mb-4">Informasi Komunitas</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-username">Username</label>
-                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ request.user.username }}">
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-email">Email address</label>
-                    <input type="email" id="input-email" class="form-control" placeholder="{{ request.user.email }}">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-nama_lengkap">Nama lengkap</label>
-                    <input type="text" id="input-nama_lengkap" class="form-control" placeholder="Nama lengkap" value="{{ request.user.nama_lengkap }}">
-                  </div>
-                </div>
-          </form>
         </div>
       </div>
     </div>
   </div>
 
   {% include "includes/footer.html" %}
-
 </div>
 
 {% endblock content %}
-
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}

@@ -56,3 +56,14 @@ class GambarForm(forms.ModelForm):
     class Meta:
         model = Gambar
         fields = ['gambar']
+
+class ProfilForm(forms.ModelForm):
+    class Meta:
+        model = ProfilPengguna
+        fields = [
+            'nama_lengkap', 'no_hp', 'prodi', 'semester', 
+            'foto_profil', 'tanggal_lahir', 'jabatan',
+        ]
+        widgets = {
+            'tanggal_lahir': forms.DateInput(attrs={'type': 'date'}),
+        }

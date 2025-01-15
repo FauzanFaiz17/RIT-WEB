@@ -12,6 +12,10 @@
     background-color: grey;
     transform: scale(0.80); /* Mengecilkan tombol sedikit */
   }
+
+  .out-bg:hover {
+    background-color: #f5365c !important;
+  }
 </style>
 <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-dark" id="sidenav-main">
   <div class="scrollbar-inner">
@@ -64,7 +68,7 @@
           </li>
           
           <li class="nav-item link_logout" style="margin-top: 100px;">
-            <a class="nav-link" href="{% url 'logout' %}">
+            <a class="nav-link out-bg" href="{% url 'logout' %}">
               <i class="ni ni-user-run text-white"></i>
               <span class="nav-link-text text-white">Logout</span>
             </a>

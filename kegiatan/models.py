@@ -2,31 +2,44 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.db import models
 
 class ProfilPengguna(AbstractUser):
+    PRODI_CHOICES = [
+    ("TI", "Teknologi Informasi"),
+    ("RPL", "Rekayasa Perangkat Lunak"),
+    ("RSK", "Rekayasa Sistem Komputer"),
+]
+
     nama_lengkap = models.CharField(max_length=100, blank=True, default="Tidak Diisi")
     no_hp = models.CharField(max_length=15, blank=True, default="0000000000")
-    prodi = models.CharField(max_length=100, blank=True, default="Tidak Diisi")
+    prodi = models.CharField(
+        max_length=50,
+        choices=PRODI_CHOICES,
+        blank=True,
+        default="TI"
+    )
     semester = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(14)],
         blank=True,
         null=True,
-        default=1
+        default=1,
     )
     npm = models.CharField(max_length=15, unique=True, blank=True, null=True)
-    foto_profil = models.ImageField(upload_to='foto_profil/', blank=True, null=True)
+    foto_profil = models.ImageField(upload_to="foto_profil/", blank=True, null=True)
     tanggal_lahir = models.DateField(null=True, blank=True)
+    jabatan = models.CharField(max_length=100, blank=True, default="Tidak Diisi")  # Field baru
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     groups = models.ManyToManyField(
         Group,
-        related_name="profilpengguna_set",  # Ubah nama relasi di sini
+        related_name="profilpengguna_set",
         blank=True,
     )
     user_permissions = models.ManyToManyField(
         Permission,
-        related_name="profilpengguna_set",  # Ubah nama relasi di sini
+        related_name="profilpengguna_set",
         blank=True,
     )
 
@@ -114,19 +127,34 @@ class Gambar(models.Model):
         verbose_name = "Gambar"
         verbose_name_plural = "Gambar"
 
-class Backlog(models.Model):
+class Task(models.Model):
     nama = models.CharField(max_length=100)
-    tanggal_mulai = models.DateField()
-    tanggal_selesai = models.DateField()
-    pengguna = models.ForeignKey(ProfilPengguna, on_delete=models.CASCADE, related_name='backlog')
+    deskripsi = models.TextField(blank=True)
+    pengguna = models.ForeignKey('ProfilPengguna', on_delete=models.CASCADE, related_name='tasks')
 
-    def clean(self):
-        if self.tanggal_selesai < self.tanggal_mulai:
-            raise ValidationError("Tanggal selesai tidak boleh lebih awal dari tanggal mulai")
-    
     def __str__(self):
         return self.nama
-    
+
     class Meta:
-        verbose_name = "Backlog"
-        verbose_name_plural = "Backlog"
+        verbose_name = "Task"
+        verbose_name_plural = "Tasks"
+
+
+class SubTask(models.Model):
+    nama = models.CharField(max_length=100)
+    deskripsi = models.TextField(blank=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='subtasks')
+    tanggal_mulai = models.DateField()
+    tanggal_selesai = models.DateField()
+
+    def clean(self):
+        # Validasi tanggal
+        if self.tanggal_selesai < self.tanggal_mulai:
+            raise ValidationError("Tanggal selesai tidak boleh lebih awal dari tanggal mulai")
+
+    def __str__(self):
+        return f"{self.nama} (Task: {self.task.nama})"
+
+    class Meta:
+        verbose_name = "SubTask"
+        verbose_name_plural = "SubTasks"

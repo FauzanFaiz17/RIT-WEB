@@ -2,7 +2,7 @@ from django.conf import settings
 from django.urls import path
 from django.conf.urls.static import static
 from . import views
-from .views import register, user_login, user_logout, dashboard, icons, map, profile, tables, struktur, it_com, web_dev, events, tambah_kegiatan, hapus_kegiatan, edit_kegiatan
+from .views import register, user_login, user_logout, dashboard, icons, map, profile, tables, struktur, it_com, web_dev, events, tambah_kegiatan, hapus_kegiatan, edit_kegiatan, projek_manage
 
 urlpatterns = [
     path('', views.index, name='home'),
@@ -21,6 +21,7 @@ urlpatterns = [
     path('events/tambah_kegiatan', tambah_kegiatan, name='tambah_kegiatan'),
     path('kegiatan/delete/<int:id>/', hapus_kegiatan, name='hapus_kegiatan'),
     path('kegiatan/edit/<int:id>/', edit_kegiatan, name='edit_kegiatan'),
+    path('projek_manage/', projek_manage, name='projek_manage'),
 ]
 
 if settings.DEBUG:

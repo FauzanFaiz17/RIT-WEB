@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterForm, LoginForm, KegiatanForm, GambarForm
+from .forms import RegisterForm, LoginForm, KegiatanForm, GambarForm, ProfilForm
 from django.contrib import messages
 from .models import Kegiatan, Gambar
 from django.forms import modelformset_factory
@@ -54,8 +54,21 @@ def icons(request):
 def map(request):
     return render(request, 'map.html')
 
+def projek_manage(request):
+    return render(request, 'projek_manage.html')
+
+@login_required
 def profile(request):
-    return render(request, 'profile.html')
+    user = request.user
+    if request.method == 'POST':
+        form = ProfilForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfilForm(instance=user)
+
+    return render(request, 'profile.html', {'form': form, 'user': user})
 
 def tables(request):
     return render(request, 'tables.html')

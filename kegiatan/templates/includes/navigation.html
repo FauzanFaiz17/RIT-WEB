@@ -1,7 +1,7 @@
 <nav class="navbar navbar-top navbar-expand navbar-dark border-bottom" style="background-color: #019BC7;">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <h1 class="text-white mt-2">Welcome {{ request.user.username }}</h1>
+      <h1 class="text-white mt-2">Welcome {{ request.user.nama_lengkap }}</h1>
       
       <!-- Navbar links -->
       <ul class="navbar-nav align-items-center  ml-md-auto ">
@@ -181,12 +181,14 @@
         <li class="nav-item dropdown">
           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
-              <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="/static/assets/img/theme/team-4.jpg">
-              </span>
+                  {% if request.user.foto_profil %}
+                    <img src="{{ request.user.foto_profil.url }}" class="rounded-circle" style="max-width: 30px;">
+                  {% else %}
+                    <img src="/static/assets/img/theme/team-5.jpg" class="rounded-circle" style="max-width: 30px;">
+                  {% endif %}
               <div class="media-body  ml-2  d-none d-lg-block">
                 <span class="mb-0 text-sm  font-weight-bold">
-                  {{ request.user.username }}
+                  {{ request.user.nama_lengkap }}
                 </span>
               </div>
             </div>
