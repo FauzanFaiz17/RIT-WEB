@@ -1,9 +1,6 @@
 from django.contrib import admin
-<<<<<<< HEAD
 from .models import ProfilPengguna, Komunitas, Divisi, Kegiatan, Gambar, Project, Taks, SubTaks
-=======
 from .models import ProfilPengguna, Komunitas, Divisi, Kegiatan, Gambar, Task, SubTask
->>>>>>> c1feb86b07a1247b65ed685e7483788812e2b85d
 
 @admin.register(ProfilPengguna)
 class ProfilPenggunaAdmin(admin.ModelAdmin):
@@ -33,7 +30,6 @@ class GambarAdmin(admin.ModelAdmin):
     list_display = ('kegiatan',)
     search_fields = ('kegiatan__nama',)
 
-<<<<<<< HEAD
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('id', 'nama', 'kepala', 'divisi')
@@ -54,19 +50,3 @@ class SubTaksAdmin(admin.ModelAdmin):
     search_fields = ('nama', 'taks__nama', 'pengguna__namadepan', 'pengguna__namabelakang')
     list_filter = ('taks', 'status', 'tanggal_mulai')
     ordering = ('id',)
-=======
-@admin.register(Task)
-class TaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nama', 'pengguna')  # Kolom yang ditampilkan di daftar admin
-    search_fields = ('nama', 'pengguna__namadepan', 'pengguna__namabelakang')  # Pencarian
-    list_filter = ('pengguna',)  # Filter berdasarkan pengguna
-    ordering = ('id',)
-
-
-@admin.register(SubTask)
-class SubTaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nama', 'task', 'tanggal_mulai', 'tanggal_selesai')
-    search_fields = ('nama', 'task__nama')  # Pencarian
-    list_filter = ('task', 'tanggal_mulai')  # Filter berdasarkan task dan tanggal
-    ordering = ('id',)
->>>>>>> c1feb86b07a1247b65ed685e7483788812e2b85d
