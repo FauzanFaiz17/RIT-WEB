@@ -80,14 +80,26 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="divisi">Divisi</label>
-                                    {{ kegiatan_form.divisi }}
+                                    <label class="form-control-label">Komunitas</label>
+                                    <select id="komunitas" name="komunitas" class="form-control" onchange="toggleDivisi(this)">
+                                      {% for komunitas in komunitas_list %}
+                                      <option value="{{ komunitas.id }}" {% if request.user.komunitas and request.user.komunitas.id == komunitas.id %}selected{% endif %}>
+                                          {{ komunitas.nama }}
+                                      </option>
+                                      {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="komunitas">Komunitas</label>
-                                    {{ kegiatan_form.komunitas }}
+                                <div class="form-group" id="divisi-wrapper">
+                                    <label class="form-control-label">Divisi</label>
+                                    <select name="divisi" class="form-control">
+                                      {% for divisi in divisi_list %}
+                                      <option value="{{ divisi.id }}" {% if request.user.divisi and request.user.divisi.id == divisi.id %}selected{% endif %}>
+                                          {{ divisi.nama }}
+                                      </option>
+                                      {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -98,20 +110,14 @@
                         </div>
                     </div>
                     <!-- Gambar -->
-                    <div class="pl-lg-4 mt-3">
-                        <h4>Upload Gambar</h4>
-                        <div class="form-group">
-                            {{ gambar_formset.management_form }}
-                            {% for form in gambar_formset %}
-                                <div class="mb-3">
-                                    {{ form.gambar }}
-                                </div>
-                            {% endfor %}
-                        </div>
+                    <div class="form-group ml-3">
+                        <label for="gambar">Upload Gambar</label>
+                        <input type="file" id="gambar" name="gambar" class="form-control" multiple accept="image/*" onchange="previewImages()">
                     </div>
+                    <div id="imagePreviewContainer" style="display: flex; flex-wrap: wrap; gap: 10px; margin-left: 40px;"></div>
                     <!-- Submit Button -->
                     <div class="pl-lg-4 mt-3" style="margin-bottom: 20px;">
-                        <button type="submit" class="btn" style="background-color: #00c0f0">Simpan</button>
+                        <button type="submit" class="btn btn-info">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -120,6 +126,75 @@
 </div>
 
 {% include "includes/footer-fullscreen.html" %}
+<script>
+    function previewImages() {
+        var container = document.getElementById('imagePreviewContainer');
+        container.innerHTML = "";  // Bersihkan preview sebelumnya
+    
+        var files = document.getElementById('gambar').files;
+        if (files.length > 0) {
+          for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+    
+            if (file.type.startsWith('image/')) {
+              let reader = new FileReader();
+              reader.onload = function(e) {
+                let imgDiv = document.createElement('div');
+                imgDiv.style.position = 'relative';
+                imgDiv.style.width = '150px';
+                imgDiv.style.height = '150px';
+    
+                let img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '5px';
+    
+                // Tombol hapus gambar
+                let removeBtn = document.createElement('span');
+                removeBtn.innerHTML = 'X';
+                removeBtn.style.position = 'absolute';
+                removeBtn.style.top = '5px';
+                removeBtn.style.right = '5px';
+                removeBtn.style.cursor = 'pointer';
+                removeBtn.style.background = 'red';
+                removeBtn.style.color = 'white';
+                removeBtn.style.borderRadius = '50%';
+                removeBtn.style.padding = '5px';
+    
+                removeBtn.onclick = function() {
+                  imgDiv.remove();
+                };
+    
+                imgDiv.appendChild(img);
+                imgDiv.appendChild(removeBtn);
+                container.appendChild(imgDiv);
+              };
+              reader.readAsDataURL(file);
+            }
+          }
+        }
+      }
+
+// Fungsi untuk menonaktifkan / menyembunyikan divisi jika komunitas game dipilih
+function toggleDivisi(komunitasSelect) {
+    var divisiWrapper = document.getElementById('divisi-wrapper');
+    var selectedKomunitas = komunitasSelect.options[komunitasSelect.selectedIndex].text;
+
+    if (selectedKomunitas === 'Komunitas Game') {
+      divisiWrapper.style.display = 'none'; // Menyembunyikan divisi jika komunitas Game
+    } else {
+      divisiWrapper.style.display = 'block'; // Menampilkan divisi untuk komunitas lainnya
+    }
+  }
+
+  // Panggil fungsi toggleDivisi saat halaman pertama kali dimuat
+  document.addEventListener("DOMContentLoaded", function() {
+    var komunitasSelect = document.getElementById('komunitas');
+    toggleDivisi(komunitasSelect);
+  });
+</script>
 
 {% endblock content %}
 

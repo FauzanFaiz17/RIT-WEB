@@ -10,7 +10,7 @@ class ProfilPenggunaAdmin(admin.ModelAdmin):
     # Mengatur field yang bisa diedit di halaman detail user
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('nama_lengkap', 'email', 'no_hp', 'prodi', 'semester', 'npm', 'tanggal_lahir', 'foto_profil')}),
+        ('Personal info', {'fields': ('nama_lengkap', 'email', 'no_hp', 'prodi', 'semester', 'npm', 'tanggal_lahir', 'foto_profil', 'komunitas', 'divisi')}),
         ('Permissions', {'fields': ('is_staff', 'is_superuser', 'is_active', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )

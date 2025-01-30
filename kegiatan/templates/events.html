@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Events {% endblock title %}
+{% block title %} Aktivitas {% endblock title %}
 
 {% block content %}
 <style>
@@ -39,13 +39,15 @@
                 <!-- Card header -->
                 <div class="card-header border-0" style="background-color: #019BC7; display: flex; justify-content: start; align-items: center;">
                     <i class="ni ni-calendar-grid-58 text-white"></i>
-                    <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">Events</h3>
+                    <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">Aktivitas</h3>
                 </div>
                 <div class="card-body">
                     <div class="mb-3" style="width: fit-content;">
+                    {% if request.user.is_staff %}
                         <a href="{% url "tambah_kegiatan" %}" class="btn d-flex justify-content-start align-items-center button1">
                             <i class="ni ni-fat-add" style="margin-right: 10px;"></i>Tambahkan
                         </a>
+                    {% endif %}
                     </div>
                     <!-- Table -->
                     <div class="table-responsive">
@@ -64,7 +66,7 @@
                             </thead>
                             <tbody class="list">
                                 {% for kegiatan in kegiatan %}
-                                <tr>
+                                <tr id="kegiatan-{{ kegiatan.id }}">
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ kegiatan.nama }}</td>
                                     <td>{{ kegiatan.tanggal_mulai }}</td>
@@ -83,33 +85,169 @@
                                         {% endfor %}
                                     </td>
                                     <td class="text-right">
+                                        {% if request.user.is_staff %}
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                 <a class="dropdown-item" href="{% url "edit_kegiatan" id=kegiatan.id %}">Edit</a>
-                                                <a class="dropdown-item" href="#">Detail</a>
-                                                <a class="dropdown-item" href="{% url 'hapus_kegiatan' id=kegiatan.id %}">Hapus</a>
+                                                <!-- Tombol Hapus memunculkan modal -->
+                                                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-hapus-{{ kegiatan.id }}">
+                                                    Hapus
+                                                </button>
                                             </div>
                                         </div>
+                            
+                                        <!-- Modal Konfirmasi Hapus -->
+                                        <div class="modal fade" id="modal-hapus-{{ kegiatan.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-hapus-title-{{ kegiatan.id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content bg-info">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-white" id="modal-hapus-title-{{ kegiatan.id }}">Hapus Kegiatan</h5>
+                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-white text-center" style="font-size: 16px;">
+                                                        Apakah Anda yakin ingin menghapus {{ kegiatan.nama }}?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-white btn-delete" data-id="{{ kegiatan.id }}" data-dismiss="modal">Hapus</button>
+                                                        <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Batal</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="7" class="text-center">Belum ada kegiatan</td>
+                                    <td colspan="8" class="text-center">Belum ada kegiatan</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                            
+                            <!-- Script JavaScript -->
+                            <script>
+                                let deletedItems = []; // Array untuk menyimpan ID kegiatan yang dihapus sementara
 
-{% include "includes/footer-fullscreen.html" %}
+// Tombol Hapus dalam Modal
+document.querySelectorAll('.btn-delete').forEach(button => {
+    button.addEventListener('click', function (e) {
+        e.preventDefault(); // Mencegah submit form default
+        const id = this.dataset.id; // Ambil ID kegiatan
+        const row = document.getElementById(`kegiatan-${id}`);
+        const url = `/kegiatan/delete/${id}/`; // URL untuk penghapusan permanen
+
+        // Sembunyikan baris
+        row.style.display = 'none';
+
+        // Tambahkan ID ke daftar item yang dihapus sementara
+        deletedItems.push(id);
+
+        // Tampilkan alert
+        showAlert(url, id);
+    });
+});
+
+// Fungsi menampilkan alert dengan opsi urungkan dan hapus permanen
+function showAlert(url, id) {
+    // Tutup alert sebelumnya
+    closeAlert();
+
+    if (deletedItems.length > 0) {
+        const alertMessage = `
+            <div id="deleteAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="margin-left: 250px;">
+                <strong>Kegiatan dihapus sementara!</strong> Anda dapat memilih untuk 
+                <a href="#" id="undoDeleteLink" class="alert-link" data-id="${id}">urungkan</a> atau 
+                <a href="#" id="confirmDeleteLink" class="alert-link" data-id="${id}" data-url="${url}">hapus permanen</a>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', alertMessage);
+
+        // Tambahkan event listener dinamis untuk tombol "Urungkan"
+        document.getElementById('undoDeleteLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            const itemId = this.dataset.id;
+            undoDelete(itemId);
+        });
+
+        // Tambahkan event listener dinamis untuk tombol "Hapus Permanen"
+        document.getElementById('confirmDeleteLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            const itemId = this.dataset.id;
+            const itemUrl = this.dataset.url;
+            confirmDelete(itemId, itemUrl);
+        });
+    }
+}
+
+// Fungsi Urungkan
+function undoDelete(id) {
+    const row = document.getElementById(`kegiatan-${id}`);
+    if (row) {
+        row.style.display = ''; // Tampilkan kembali baris
+    }
+    deletedItems = deletedItems.filter(item => item !== id); // Hapus ID dari daftar
+    closeAlert(); // Tutup alert
+}
+
+// Fungsi Konfirmasi Hapus Permanen
+function confirmDelete(id, url) {
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'), // Ambil CSRF token
+        },
+    })
+        .then(response => {
+            if (response.ok) {
+                // Hapus baris dari DOM
+                const row = document.getElementById(`kegiatan-${id}`);
+                if (row) {
+                    row.remove();
+                }
+                alert('Data berhasil dihapus permanen!');
+            } else {
+                alert('Gagal menghapus data.');
+            }
+        })
+        .catch(error => {
+            alert('Terjadi kesalahan. Silakan coba lagi.');
+            console.error('Error:', error);
+        });
+
+    // Hapus ID dari daftar
+    deletedItems = deletedItems.filter(item => item !== id);
+    closeAlert(); // Tutup alert
+}
+
+// Fungsi Menutup Alert
+function closeAlert() {
+    const alertElement = document.getElementById('deleteAlert');
+    if (alertElement) {
+        alertElement.remove(); // Hapus elemen alert dari DOM
+    }
+}
+
+// Fungsi untuk mendapatkan CSRF token dari cookie
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+                            </script>
+                            
 {% endblock content %}
 
 {% block javascripts %}{% endblock javascripts %}

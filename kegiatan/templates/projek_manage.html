@@ -1,0 +1,200 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Projek Manajemen {% endblock title %}
+
+{% block content %}
+
+<style>
+  .it_com {
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  .gm_com {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  .ot_com {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  .btn:hover {
+    background-color: red;
+    color: white;
+  }
+
+  .clickable-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+  .clickable-row:hover {
+      background-color: #f0f0f0; /* Warna latar saat hover */
+}
+</style>  
+
+  <div class="header pb-6" style="background-color: #00c0f0;">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Page</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links">
+                <li class="breadcrumb-item"><a href="#"><i style="color: #00c0f0;" class="ni ni-single-copy-04"></i></a></li>
+                <li class="breadcrumb-item"><a {% if 'projek_manage' in segment %} active {% endif %} href="/projek_manage" style="color: #00c0f0; font-weight: bold;">Projek Manajemen</a></li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0" style="background-color: #019BC7; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: start; align-items: center;">
+                <i class="ni ni-single-copy-04 text-white"></i>
+                <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">Projek Manajemen</h3>
+            </div>
+            <a class="bg-white btn" data-toggle="modal" data-target="#modal-default">
+                <div style="display: flex; justify-content: start; align-items: center;">
+                    <i class="ni ni-fat-add" style="font-size: 20px;"></i>
+                    <span style="font-size: 16px;">Tambah</span>
+                </div>
+            </a>
+          </div>
+          <!-- Table -->
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                <thead style="background-color: #D9D9D933;">
+                    <tr>
+                    <th scope="col" class="sort" data-sort="name">No</th>
+                    <th scope="col" class="sort" data-sort="budget">Nama projek</th>
+                    <th scope="col" class="sort" data-sort="status">Divisi</th>
+                    <th scope="col">Ketua projek</th>
+                    <th scope="col" class="sort" data-sort="completion">Status</th>
+                    <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                  {% for Project in projek_list %}
+                  <tr class="clickable-row" style="cursor: pointer;">
+                    <th scope="row" onclick="window.location.href='{% url 'projek_proses' Project.id %}'"> 
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="name mb-0 text-sm">{{ Project.id }}</span>
+                        </div> 
+                      </div>
+                    </th>
+                    <td class="budget" onclick="window.location.href='{% url 'projek_proses' Project.id %}'">
+                      {{ Project.nama }}
+                    </td>
+                    <td onclick="window.location.href='{% url 'projek_proses' Project.id %}'">
+                      <span class="status" >{{ Project.divisi }}</span>
+                    </td>
+                    <td onclick="window.location.href='{% url 'projek_proses' Project.id %}'">
+                      <div>
+                        <span style="text-align: center;">{{ Project.nama_kepala }}</span>
+                      </div>
+                    </td>
+                    <td onclick="window.location.href='{% url 'projek_proses' Project.id %}'">
+                      <div class="d-flex align-items-center">
+                        <span>{{ Project.status }}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <form action="{% url 'hapus_projek' Project.id %}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus proyek ini?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                          <div style="display: flex; justify-content: center; align-items: center;">
+                            <i class="ni ni-fat-remove"></i>
+                            <span>Hapus</span>
+                          </div>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="8" class="text-center">Tidak ada Projek.</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>                
+                </table>
+            </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer-fullscreen.html" %}
+
+  </div>
+  <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true" style="margin-left: 80px;">
+    <div class="modal-dialog modal-dialog-centered modal-7" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Tambah Data</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="nama">Nama Projek</label>
+                        {{ projek_form.nama }}    
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_kepala">Nama Kepala</label>
+                        {{ projek_form.nama_kepala }}    
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Divisi</label>
+                        <select name="divisi" class="form-control">
+                          {% for divisi in divisi_list %}
+                          <option value="{{ divisi.id }}" {% if request.user.divisi and request.user.divisi.id == divisi.id %}selected{% endif %}>
+                              {{ divisi.nama }}
+                          </option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-control-label" for="deskripsi">Deskripsi</label>
+                      {{ projek_form.deskripsi }}  
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-info">Simpan</button>
+                      <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Tutup</button> 
+                  </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

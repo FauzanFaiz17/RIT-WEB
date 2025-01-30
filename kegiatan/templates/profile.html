@@ -29,7 +29,7 @@
   <div class="row">
     <!-- Kartu Profil -->
     <div class="col-xl-4 order-xl-2">
-      <div class="card card-profile" style="background-image: url(/static/assets/img/theme/img-1-1000x600.jpg); background-size: cover; background-position: center top;">
+      <div class="card card-profile">
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image" style="margin-top: 100px;">
@@ -38,7 +38,8 @@
                 <input type="file" id="uploadPhotoInput" name="foto_profil" style="display: none;" onchange="document.getElementById('updatePhotoForm').submit();">
                 <a href="#" onclick="document.getElementById('uploadPhotoInput').click();">
                   {% if request.user.foto_profil %}
-                    <img src="{{ request.user.foto_profil.url }}" class="rounded-circle" style="max-width: 200px; max-height: 150px; object-fit: cover;">
+                  <img src="{{ request.user.foto_profil.url }}" class="rounded-circle" 
+                  style="width: 150px; height: 150px; object-fit: cover;">             
                   {% else %}
                     <img src="/static/assets/img/theme/team-5.jpg" class="rounded-circle" style="max-width: 150px;">
                   {% endif %}
@@ -48,7 +49,10 @@
           </div>
         </div>
         <div class="card-body rounded-bottom" style="margin-top: 80px; background-color: white;">
-          <h5 class="h3">{{ request.user.nama_lengkap }}</h5>
+          <div class="text-center">
+            <h5 class="h3">{{ request.user.nama_lengkap }}</h5>
+            <p>{{ request.user.email }}</p>
+          </div>
           <div class="mt-2">
             <p><strong>Prodi:</strong> {{ request.user.prodi }}</p>
             <p><strong>Semester:</strong> {{ request.user.semester }}</p>
@@ -66,7 +70,7 @@
         <div class="card-header" style="background-color: #019BC7;">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Edit Profile</h3>
+              <h3 class="mb-0 text-white">Edit Profile</h3>
             </div>
             <div class="col-4 text-right">
               <button type="submit" form="profilForm" class="btn btn-sm" style="background-color: #00c0f0; color: white;">Update</button>
@@ -127,34 +131,49 @@
                     <input type="date" name="tanggal_lahir" class="form-control" value="{{ request.user.tanggal_lahir }}">
                   </div>
                 </div>
-              </form>
-              <form id="profilForm" method="post" enctype="multipart/form-data">
-                <h6 class="heading-small text-muted mb-2">Informasi Komunitas</h6>
-                <div class="pl-lg-4">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label">Komunitas</label>
-                        <input type="text" name="komunitas" class="form-control" value="{{ request.user.komunitas }}">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label">Divisi</label>
-                        <input type="text" name="divisi" class="form-control" value="{{ request.user.divisi }}">
-                      </div>
-                    </div>
+              </div>
+
+              <!-- Komunitas dan Divisi -->
+              <h6 class="heading-small text-muted mb-2">Informasi Komunitas</h6>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label">Komunitas</label>
+                    <select id="komunitas" name="komunitas" class="form-control" onchange="toggleDivisi(this)">
+                      {% for komunitas in komunitas_list %}
+                      <option value="{{ komunitas.id }}" {% if request.user.komunitas and request.user.komunitas.id == komunitas.id %}selected{% endif %}>
+                          {{ komunitas.nama }}
+                      </option>
+                      {% endfor %}
+                    </select>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label">Jabatan</label>
-                        <input type="text" name="jabatan" class="form-control" value="{{ request.user.jabatan }}">
-                      </div>
-                    </div>
-                  </form>
                 </div>
+                <div class="col-lg-6">
+                  <div class="form-group" id="divisi-wrapper">
+                    <label class="form-control-label">Divisi</label>
+                    <select name="divisi" class="form-control">
+                      {% for divisi in divisi_list %}
+                      <option value="{{ divisi.id }}" {% if request.user.divisi and request.user.divisi.id == divisi.id %}selected{% endif %}>
+                          {{ divisi.nama }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {% if request.user.is_staff %}
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group" id="divisi-wrapper">
+                    <label class="form-control-label">Jabatan</label>
+                    <input type="text" name="jabatan" class="form-control" value="{{ request.user.jabatan }}">
+                  </div>
+                </div>
+              </div>
+              {% endif %}
             </div>
+          </form>
         </div>
       </div>
     </div>
@@ -162,5 +181,24 @@
 
   {% include "includes/footer.html" %}
 </div>
+<script>
+  // Fungsi untuk menonaktifkan / menyembunyikan divisi jika komunitas game dipilih
+  function toggleDivisi(komunitasSelect) {
+    var divisiWrapper = document.getElementById('divisi-wrapper');
+    var selectedKomunitas = komunitasSelect.options[komunitasSelect.selectedIndex].text;
+
+    if (selectedKomunitas === 'Komunitas Game') {
+      divisiWrapper.style.display = 'none'; // Menyembunyikan divisi jika komunitas Game
+    } else {
+      divisiWrapper.style.display = 'block'; // Menampilkan divisi untuk komunitas lainnya
+    }
+  }
+
+  // Panggil fungsi toggleDivisi saat halaman pertama kali dimuat
+  document.addEventListener("DOMContentLoaded", function() {
+    var komunitasSelect = document.getElementById('komunitas');
+    toggleDivisi(komunitasSelect);
+  });
+</script>
 
 {% endblock content %}

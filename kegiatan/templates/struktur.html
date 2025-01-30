@@ -6,14 +6,13 @@
 
 <style>
   .it_com {
-    margin-top: 5px;
+    margin-top: -20px;
     padding: 10px;
     background-color: #f0f0f0;
     border-radius: 10px;
   }
 
   .gm_com {
-    margin-top: 20px;
     padding: 10px;
     background-color: #f0f0f0;
     border-radius: 10px;
@@ -24,6 +23,16 @@
     padding: 10px;
     background-color: #f0f0f0;
     border-radius: 10px;
+  }
+
+  a:hover .it_com {
+    background-color: #e0e0e0; /* Warna latar saat hover */
+    cursor: pointer;
+  }
+
+  a:hover .gm_com {
+    background-color: #e0e0e0; /* Warna latar saat hover */
+    cursor: pointer;
   }
 </style>  
 
@@ -52,21 +61,21 @@
         <div class="card">
           <!-- Card header -->
           <div class="card-header border-0" style="background-color: #019BC7;">
-            <h3 class="mb-0 text-white text-uppercase">Struktur Komunitas</h3>
+            <h3 class="text-white text-uppercase">Struktur Komunitas</h3>
           </div>
           <div class="card-body">
-            <div class="it_com">
-              <i class="ni ni-world-2"></i>
-              <a style="color: black; margin-left: 10px;" {% if 'it_com' in segment %} active {% endif %} href="/struktur/it_com">IT Community</a>
-            </div>
-            <div class="gm_com">
-              <i class="ni ni-controller"></i>
-              <a href="#" style="color: black; margin-left: 10px;">Gaming Community</a>
-            </div>
-            <div class="ot_com">
-              <i class="ni ni-fat-add"></i>
-              <a href="#" style="color: black; margin-left: 10px;">Others</a>
-            </div>
+            <a {% if 'it_com' in segment %} class="active anchor" {% endif %} href="/struktur/it_com" style="text-decoration: none; color: black; margin-left: 10px;">
+              <div class="it_com" style="color: black; display: flex; align-items: center;">
+                <i class="ni ni-world-2"></i>
+                <span style="margin-left: 10px;">IT Community</span>
+              </div>
+            </a>
+            <a {% if 'gm_com' in segment %} class="active anchor" {% endif %} href="/struktur/gm_com" style="text-decoration: none; color: black; margin-left: 10px;">
+              <div class="gm_com" style="color: black; display: flex; align-items: center;">
+                <i class="ni ni-controller"></i>
+                <span style="margin-left: 10px;">Game Community</span>
+              </div>
+            </a>
           </div>
         </div>
       </div>

@@ -25,6 +25,33 @@
     background-color: #f0f0f0;
     border-radius: 10px;
   }
+
+  .anth_com {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  a:hover .it_com {
+    background-color: #e0e0e0; /* Warna latar saat hover */
+    cursor: pointer;
+  }
+
+  a:hover .gm_com {
+    background-color: #e0e0e0; /* Warna latar saat hover */
+    cursor: pointer;
+  }
+
+  a:hover .ot_com {
+    background-color: #e0e0e0; /* Warna latar saat hover */
+    cursor: pointer;
+  }
+
+  a:hover .anth_com {
+    background-color: #e0e0e0; /* Warna latar saat hover */
+    cursor: pointer;
+  }
 </style>  
 
   <div class="header pb-6" style="background-color: #00c0f0;">
@@ -57,18 +84,30 @@
             <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">IT Community</h3>
           </div>
           <div class="card-body">
-            <div class="it_com">
-              <i class="ni ni-html5"></i>
-              <a {% if 'web_dev' in segment %} active {% endif %} href="/struktur/it_com/web_dev" style="color: black; margin-left: 10px;">WebDev Division</a>
-            </div>
-            <div class="gm_com">
-              <i class="ni ni-controller"></i>
-              <a href="#" style="color: black; margin-left: 10px;">GameDev Division</a>
-            </div>
-            <div class="ot_com">
-              <i class="ni ni-app"></i>
-              <a href="#" style="color: black; margin-left: 10px;">IoT Division</a>
-            </div>
+            <a {% if 'web_dev' in segment %} class="active anchor" {% endif %} href="/struktur/it_com/web_dev" style="text-decoration: none;">
+              <div class="it_com" style="color: black; display: flex; align-items: center;">
+                <i class="ni ni-html5"></i>
+                <span style="margin-left: 10px;">WebDev Division</span>
+              </div>
+            </a>            
+            <a class="active" href="/struktur/it_com/game_dev" style="text-decoration: none;">
+              <div class="gm_com" style="color: black; display: flex; align-items: center;">
+                <i class="ni ni-controller"></i>
+                <span style="margin-left: 10px;">GameDev Division</span>
+              </div>
+            </a>
+            <a class="active" href="/struktur/it_com/iot_div" style="text-decoration: none;">
+              <div class="ot_com" style="color: black; display: flex; align-items: center;">
+                <i class="ni ni-app"></i>
+                <span style="margin-left: 10px;">IoT Division</span>
+              </div>
+            </a>
+            <a class="active" href="/struktur/it_com/keanggotaan" style="text-decoration: none;">
+              <div class="anth_com" style="color: black; display: flex; align-items: center;">
+                <i class="ni ni-world-2"></i>
+                <span style="margin-left: 10px;">Keanggotaan</span>
+              </div>
+            </a>
           </div>
         </div>
       </div>

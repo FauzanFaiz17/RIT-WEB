@@ -25,7 +25,7 @@
         <img src="/static/img/logo_header_putih1.png" class="navbar-brand-img" alt="RIT - Logo.">
       </a>
     </div>
-    <div class="navbar-inner mt-3">
+    <div class="navbar-inner mt-4">
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
         <!-- Nav items -->
@@ -42,32 +42,19 @@
               <span class="nav-link-text text-white">Struktur</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item dropdown">
             <a class="nav-link {% if 'events' in segment %} active {% endif %}" href="/events">
               <i class="ni ni-calendar-grid-58 text-white"></i>
-              <span class="nav-link-text text-white">Events</span>
+              <span class="nav-link-text text-white">Aktivitas</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if 'icons' in segment %} active {% endif %}" href="/icons">
-              <i class="ni ni-planet text-white"></i>
-              <span class="nav-link-text text-white">Icons</span>
+            <a class="nav-link {% if 'projek_manage' in segment %} active {% endif %}" href="/projek_manage">
+              <i class="ni ni-single-copy-04 text-white"></i>
+              <span class="nav-link-text text-white">Projek Manajemen</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile">
-              <i class="ni ni-single-02 text-white"></i>
-              <span class="nav-link-text text-white">Profile</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if 'tables' in segment %} active {% endif %}" href="/tables">
-              <i class="ni ni-bullet-list-67 text-white"></i>
-              <span class="nav-link-text text-white">Tables</span>
-            </a>
-          </li>
-          
-          <li class="nav-item link_logout" style="margin-top: 100px;">
+          <li class="nav-item link_logout" style="margin-top: 190px;">
             <a class="nav-link out-bg" href="{% url 'logout' %}">
               <i class="ni ni-user-run text-white"></i>
               <span class="nav-link-text text-white">Logout</span>

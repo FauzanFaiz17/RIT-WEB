@@ -1,0 +1,133 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Game Com {% endblock title %}
+
+{% block content %}
+
+<style>
+  .it_com {
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  .gm_com {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+
+  .ot_com {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+</style>  
+
+  <div class="header pb-6" style="background-color: #00c0f0;">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Page</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links">
+                <li class="breadcrumb-item"><a {% if 'struktur' in segment %} active {% endif %} href="/struktur" style="color: #00c0f0;">Struktur</a></li>
+                <li class="breadcrumb-item"><a {% if 'gm_com' in segment %} active {% endif %} href="/struktur/gm_com" style="color: #00c0f0; font-weight: bolder;">Game Community</a></li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0" style="background-color: #019BC7; display: flex; justify-content: start; align-items: center;">
+            <i class="ni ni-controller text-white"></i>
+            <h3 class="mb-0 text-white text-uppercase" style="margin-left: 10px;">Game Community</h3>
+          </div>
+          <!-- Table -->
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                <thead style="background-color: #D9D9D933;">
+                    <tr>
+                    <th scope="col" class="sort" data-sort="name">Nama</th>
+                    <th scope="col" class="sort" data-sort="budget">NPM</th>
+                    <th scope="col" class="sort" data-sort="status">Jabatan</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col" class="sort" data-sort="completion">Jurusan</th>
+                    <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                  {% for user in users %}
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="name mb-0 text-sm">{{ user.nama_lengkap }}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td class="budget">
+                      {{ user.npm }}
+                    </td>
+                    <td>
+                      <span class="status">{{ user.jabatan }}</span>
+                    </td>
+                    <td>
+                      <div>
+                        <span style="text-align: center;">{{ user.semester }}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span>{{ user.prodi }}</span>
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="#">Action</a>
+                          <a class="dropdown-item" href="#">Another action</a>
+                          <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="8" class="text-center">Tidak ada anggota di komunitas ini.</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>                
+                </table>
+            </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "includes/footer-fullscreen.html" %}
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

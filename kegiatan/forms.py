@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import ProfilPengguna, Kegiatan, Gambar
+from .models import ProfilPengguna, Kegiatan, Gambar, Project, Task, Subtask
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -62,8 +62,37 @@ class ProfilForm(forms.ModelForm):
         model = ProfilPengguna
         fields = [
             'nama_lengkap', 'no_hp', 'prodi', 'semester', 
-            'foto_profil', 'tanggal_lahir', 'jabatan',
+            'foto_profil', 'tanggal_lahir', 'jabatan', 'komunitas', 'divisi'
         ]
         widgets = {
             'tanggal_lahir': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = [
+            'nama', 'nama_kepala', 'divisi', 'deskripsi'
+        ]
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = [
+            'nama', 'tanggal_mulai', 'tanggal_selesai'
+        ]
+        widgets = {
+            'tanggal_mulai': forms.DateInput(attrs={'type': 'date'}),
+            'tanggal_selesai': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class SubtaskForm(forms.ModelForm):
+    class Meta:
+        model = Subtask
+        fields = [
+            'nama', 'tanggal_mulai', 'tanggal_selesai'
+        ]
+        widgets = {
+            'tanggal_mulai': forms.DateInput(attrs={'type': 'date'}),
+            'tanggal_selesai': forms.DateInput(attrs={'type': 'date'}),
         }

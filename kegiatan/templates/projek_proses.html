@@ -1,0 +1,369 @@
+{% extends 'layouts/base_project.html' %}
+
+{% block title %} Projek Manajemen {% endblock title %}
+
+{% block content %}
+
+<style>
+    .card {
+        margin: 20px;
+    }
+    .task {
+        margin-bottom: 10px;
+    }
+    .btn-add, .btn-delete {
+        margin-top: 10px;
+    }
+    
+    #gantt_here {
+        width: 100%;
+        height: 400px; /* Sesuaikan tinggi */
+    }
+</style>
+
+<div class="container-fluid card">
+    <div class="row">
+        {% for Project in projek_list %}
+            <div class="col-md-6">
+                <div class="judul" style="margin-top: 40px;">
+                    <h1 style="font-weight: bolder;">{{ Project.nama }}</h1>
+                    <p class="m-0">{{ Project.divisi }}</p>
+                    <div style="display: flex; justify-content: end; align-items: right; margin-top: 0;">
+                        <button type="submit" class="btn btn-info btn-sm">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <i class="ni ni-collection"></i>
+                                <span>Detail</span>
+                            </div>
+                        </button>
+                    </div>
+                    <hr class="mt-2">
+                    <div style="display: flex; justify-content: start;"  data-toggle="modal" data-target="#modal-default">
+                        <button type="submit" class="btn btn-secondary">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <i class="ni ni-fat-add"></i>
+                                <span>Tugas</span>
+                            </div>
+                        </button>
+                    </div>
+                    {% for task in task_list  %}
+                    <div class="table-responsive">
+                        <table style="width: 100%;" class="table table-flush mt-3 mb-3">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70%;">
+                                        <a data-toggle="modal" data-target="#editTaskModal{{ task.id }}" style="cursor:pointer;">
+                                            <div>
+                                                {{ task.nama }}
+                                            </div>
+                                        </a>
+                                    </th>
+                                    <th style="width: 10%;">Mulai</th>
+                                    <th style="width: 10%;">Selesai</th>
+                                    <th style="width: 5%;">Hari</th>
+                                    <th style="width: 1%">
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow bg-info" style="text-align: center;">
+                                                <a type="button" class="dropdown-item btn btn-tambah-subtask" data-task-id="{{ task.id }}" data-toggle="modal" data-target="#modal-subtask">
+                                                    Tambah
+                                                </a>
+                                                <a type="button" class="dropdown-item btn">
+                                                    Hapus
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                {% for subtask in subtask_list  %}
+                                    {% if subtask.id_task == task %}
+                                        <tr>
+                                        <th scope="row" > 
+                                            <a class="edit_a" data-toggle="modal" data-target="#editSubtaskModal{{ subtask.id }}" style="cursor:pointer;">
+                                                <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <span class="name mb-0 text-sm">{{ subtask.nama }}</span>
+                                                </div> 
+                                                </div>
+                                            </a>
+                                        </th>
+                                        <td class="date" >
+                                            {{ subtask.tanggal_mulai }}
+                                        </td>
+                                        <td >
+                                            <span class="date" >{{ subtask.tanggal_selesai }}</span>
+                                        </td>
+                                        <td>
+                                            {{ subtask.jumlah_hari }}
+                                        </td>
+                                        <td>
+                                            {% if subtask.tanggal_selesai %}
+                                                <div>
+                                                    <i class="ni ni-check-bold text-success"></i>
+                                                </div>
+                                            {% endif %}
+                                        </td>
+                                        </tr>
+                                    {% endif %}
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="5" style="text-align: center;">Belum ada subtask</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>    
+                    {% endfor %}                
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="display: flex; justify-content: end; align-items: right; margin-top: 20px; margin-right: 20px;">
+                    <button type="submit" class="btn btn-secondary btn-sm">
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <i class="ni ni-cloud-upload-96"></i>
+                            <span>Export</span>
+                        </div>
+                    </button>
+                    <button type="submit" class="btn btn-secondary btn-sm">
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <i class="ni ni-fat-remove"></i>
+                            <span>Hapus</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="progress-wrapper" style="width: 80%; margin-top: 50px; margin-left:80px;">
+                    <div class="progress-info">
+                      <div class="progress-label">
+                        <span class="text-dark">Progres Projek</span>
+                      </div>
+                      <div class="progress-percentage">
+                        <span>60%</span>
+                      </div>
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar bg-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <!-- Gantt Chart -->
+                <div class="table-responsive">
+                    <table style="width: 100%;" class="table table-flush mt-3 mb-3">
+                        <thead>
+                            <tr>
+                                <th style="width: 70%; text-align: center; font-weight: bolder;">Gantt Chart</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div id="gantt_here"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include "includes/footer-fullscreen.html" %}
+
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true" style="margin-left: 80px;">
+    <div class="modal-dialog modal-dialog-centered modal-7" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Tambah Task</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+            {% if  task_form %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="nama">Nama Tugas</label>
+                        {{ task_form.nama }}    
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_mulai">Tanggal Mulai</label>    
+                        {{ task_form.tanggal_mulai }}
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_selesai">Tanggal Selesai</label>
+                        {{ task_form.tanggal_selesai }}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" name="submit_task" class="btn btn-info">Simpan</button>
+                      <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Tutup</button> 
+                  </div>
+                </form>
+            {% else %}
+                <p>Form tidak tersedia</p>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-subtask" tabindex="-1" role="dialog" aria-labelledby="modal-subtask" aria-hidden="true" style="margin-left: 80px;">
+    <div class="modal-dialog modal-dialog-centered modal-7" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Tambah Subtask</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+            {% if  subtask_form %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" id="task_id_input">
+                {{ subtask_form.as_p }}
+                <button type="submit" name="submit_subtask" class="btn btn-primary">Tambah</button>
+            </form>
+            {% else %}
+                <p>Form tidak tersedia</p>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for subtask in subtask_list %}
+<div class="modal fade" id="editSubtaskModal{{ subtask.id }}" tabindex="-1" role="dialog" aria-labelledby="editSubtaskModal{{ subtask.id }}" aria-hidden="true" style="margin-left: 80px;">
+    <div class="modal-dialog modal-dialog-centered modal-7" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Edit Subtask</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+            <form method="POST" action="{% url 'edit_subtask' subtask.id|default:0 %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nama">Nama Subtask</label>
+                        <input type="text" class="form-control" name="nama" value="{{ subtask.nama }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_mulai">Tanggal Mulai</label>
+                        <input type="date" class="form-control" name="tanggal_mulai" value="{{ subtask.tanggal_mulai|date:'Y-m-d' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_selesai">Tanggal Selesai</label>
+                        <input type="date" class="form-control" name="tanggal_selesai" value="{{ subtask.tanggal_selesai|date:'Y-m-d' }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>    
+        </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% for task in task_list %}
+<div class="modal fade" id="editTaskModal{{ task.id }}" tabindex="-1" role="dialog" aria-labelledby="editTaskModal{{ task.id }}" aria-hidden="true" style="margin-left: 80px;">
+    <div class="modal-dialog modal-dialog-centered modal-7" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Edit Task</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+            <form method="POST" action="{% url 'edit_task' task.id|default:0 %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nama">Nama Task</label>
+                        <input type="text" class="form-control" name="nama" value="{{ task.nama }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_mulai">Tanggal Mulai</label>
+                        <input type="date" class="form-control" name="tanggal_mulai" value="{{ task.tanggal_mulai|date:'Y-m-d' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_selesai">Tanggal Selesai</label>
+                        <input type="date" class="form-control" name="tanggal_selesai" value="{{ task.tanggal_selesai|date:'Y-m-d' }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>    
+        </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% block javascripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.btn-tambah-subtask').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const taskId = this.getAttribute('data-task-id');
+                const inputElement = document.getElementById('task_id_input');
+
+                if (inputElement) {
+                    inputElement.value = taskId;
+                } else {
+                    console.error("Elemen #task_id_input tidak ditemukan!");
+                }
+            });
+        });
+    }); 
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const projectId = "{{ projek.id }}";  // Ambil ID project dari Django Template
+  
+        function formatDate(isoDate) {
+            const date = new Date(isoDate);
+            return date.toLocaleDateString("en-GB").replace(/\//g, "-"); // Mengubah ke format DD-MM-YYYY
+        }
+
+        fetch(`/api/subtasks/${projectId}/`)
+            .then(response => response.json())
+            .then(data => {
+                const tasks = data.map(subtask => ({
+                    id: subtask.id,
+                    text: subtask.nama,
+                    start_date: formatDate(subtask.tanggal_mulai), // Pastikan tanggal sesuai
+                    duration: subtask.tanggal_selesai
+                        ? (new Date(subtask.tanggal_selesai) - new Date(subtask.tanggal_mulai)) / (1000 * 60 * 60 * 24)
+                        : 1
+                }));
+
+                gantt.config.show_grid = false;
+
+                console.log("Data yang dikirim ke Gantt:", tasks); // Debugging
+                gantt.init("gantt_here");
+                gantt.parse({ data: tasks });
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    });
+</script>
+{% endblock javascripts %}
+
+{% endblock %}
