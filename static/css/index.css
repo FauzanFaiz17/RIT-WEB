@@ -1,0 +1,67 @@
+h1, h3, h4 {
+    font-family: 'Poppins', sans-serif;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;;
+}
+
+.logo-img {
+    max-height: 50px;
+    width: auto;
+}
+
+.btn-login {
+    height: 50px;
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+}
+
+.rounded-custom {
+    width: 100%; /* Agar menyesuaikan dengan kolom */
+    height: 300px; /* Ukuran tetap */
+    object-fit: cover; /* Menjaga proporsi gambar */
+    border-radius: 20px; /* Sudut membulat */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efek animasi */
+}
+
+/* Hover effect */
+.rounded-custom:hover {
+    transform: scale(1.05); /* Zoom sedikit saat hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Bayangan saat hover */
+}
+
+/* Tooltip menggunakan atribut title */
+.activity-item img {
+    position: relative;
+    cursor: pointer;
+}
+
+.backdiv {
+    background: linear-gradient(to bottom, #0dcaf0, #fafbfc); /* Gradient dari warna biru muda ke biru tua */
+    color: white; /* Agar teks terlihat kontras */
+}
+.rounded2 {
+    border-radius: 70px; /* Membuat sudut melengkung */
+}
+
+.rounded-custom2 {
+    width: 100%; /* Agar menyesuaikan dengan kolom */
+    height: 300px; /* Ukuran tetap */
+    object-fit: cover; /* Menjaga proporsi gambar */
+    border-radius: 20px; /* Sudut membulat */
+}
+
+a {
+    text-decoration: none;
+}
+
+.scroll-animation {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+.scroll-animation.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

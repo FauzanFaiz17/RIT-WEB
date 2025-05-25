@@ -1,0 +1,435 @@
+{% load static %}
+<body>
+{% include "includes/navbar.html" %}
+{% block content %}
+{% endblock %}
+<style>
+    * {
+        font-family: Nunito, sans-serif;
+      }
+      
+      .text-blk {
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        line-height: 25px;
+      }
+      
+      .responsive-cell-block {
+        min-height: 75px;
+      }
+      
+      .responsive-container-block {
+        min-height: 75px;
+        height: fit-content;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 0px;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-left: auto;
+        justify-content: space-evenly;
+      }
+      
+      .outer-container {
+        padding-top: 10px;
+        padding-right: 50px;
+        padding-bottom: 10px;
+        padding-left: 50px;
+        background-color: rgb(244, 252, 255);
+      }
+      
+      .inner-container {
+        max-width: 1320px;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        margin-right: auto;
+        margin-bottom: 50px;
+        margin-left: auto;
+      }
+      
+      .section-head-text {
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 5px;
+        margin-left: 0px;
+        font-size: 35px;
+        font-weight: 700;
+        line-height: 48px;
+        color: rgb(0, 135, 177);
+        margin: 0 0 10px 0;
+      }
+      
+      .section-subhead-text {
+        font-size: 25px;
+        color: rgb(153, 153, 153);
+        line-height: 35px;
+        max-width: 470px;
+        text-align: center;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 60px;
+        margin-left: 0px;
+      }
+      
+      .img-wrapper {
+        width: 100%;
+      }
+      
+      .team-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .social-media-links {
+        width: 125px;
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .name {
+        font-size: 25px;
+        font-weight: 700;
+        color: rgb(102, 102, 102);
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 5px;
+        margin-left: 0px;
+      }
+      
+      .position {
+        font-size: 25px;
+        font-weight: 700;
+        color: rgb(0, 135, 177);
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 50px;
+        margin-left: 0px;
+      }
+      
+      .team-img {
+        width: 100%;
+        height: 100%;
+      }
+      
+      .team-card-container {
+        width: 280px;
+        margin: 0 0 40px 0;
+      }
+      
+      @media (max-width: 500px) {
+        .outer-container {
+          padding: 10px 20px 10px 20px;
+        }
+      
+        .section-head-text {
+          text-align: center;
+        }
+      }
+
+      .img-wrapper {
+        width: 120px; /* Sesuaikan ukuran lingkaran */
+        height: 120px;
+        border-radius: 50%; /* Membuat elemen menjadi lingkaran */
+        overflow: hidden; /* Memastikan gambar yang lebih besar dari wadah akan terpotong */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer; /* Tambahkan pointer untuk menunjukkan bisa diklik */
+    }
+    
+    .team-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Memastikan gambar menutupi seluruh area lingkaran */
+        aspect-ratio: 1 / 1; /* Pastikan gambar dalam rasio 1:1 */
+    }
+    
+    /* Modal styling dengan efek blur */
+    .modal {
+        display: none; /* Awalnya modal disembunyikan */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(10px); /* Efek blur untuk latar belakang */
+    }
+    
+    .modal-content {
+        width: 40vw; /* Pastikan modal memenuhi layar */
+        height: auto; /* Jaga aspek rasio gambar */
+        max-height: 90vh;
+        border-radius: 10px;
+        transition: transform 0.2s ease-in-out;
+        object-fit: contain; /* Pastikan gambar terlihat sepenuhnya */
+    }
+    
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+    <div class="container-fluid backjum" style="height: 600px;">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-md-5">
+                    <img class="img-fluid" style="max-height: 350px; margin-right: 30px;" src="{% static 'img/rit-singlepage.png' %}" alt="Logo-RIT">
+                </div>
+                <div class="col-md-7">
+                    <h1 class="display-4 text-uppercase fs-1 fw-bold">Welcome to Republic of Information Technology</h1>
+                    <p class="lead">Wadah bagi mahasiswa Fakultas Komunikasi dan Informasi Universitas Garut untuk berkarya dan mengabdi</p>
+                    <a href="" class="btn btn-info btn-lg text-white">Join us</a>
+                </div>
+            </div>
+        </div>
+    </div>            
+    
+    <div class="container-fluid backabt scroll-animation" style="height: 550px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7" style="margin-top: 100px;">
+                    <h1 class="scroll-animation">About us</h1>
+                    <p class="lh-base fs-5 scroll-animation" style="margin-top: 20px;">Republic of Information Technology adalah Unit Kegiatan Mahasiswa untuk mahasiswa di bidang IT. RIT bertujuan sebagai wadah bagi teman-teman mahasiswa untuk bereksplorasi dalam pengembangan teknologi. RIT ingin mendorong teman-teman untuk mencoba berbagai hal, mulai dari proses pembuatan suatu produk IT hingga pengimplementasian produk IT secara langsung. RIT juga ingin memberikan lingkungan yang suportif yang dapat membantu teman-teman dalam perjalanan eksplorasi IT.</p>
+                </div>
+                <div class="col-md-5 text-center scroll-animation">
+                    <img src="{% static 'img/logo-text-hitam.png' %}" alt="Logo-RIT" class="img-fluid" style="max-height: 400px; margin-top: 100px;">
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <div class="container-fluid backact scroll-animation" id="activities">
+        <div class="container">
+            <h1 class="text-center fw-bold fs-1 mt-5">Activities</h1>
+            <p class="text-center">Berikut beberapa kegiatan yang kami lakukan :</p>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/kegiatan1.jpg' %}" alt="Activity 1" class="shadow-lg img-fluid rounded-custom" title="Activity 1">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/kegiatan2.jpg' %}" alt="Activity 2" class="shadow-lg img-fluid rounded-custom" title="Activity 2">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample3.png' %}" alt="Activity 3" class="shadow-lg img-fluid rounded-custom" title="Activity 3">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample4.png' %}" alt="Activity 4" class="shadow-lg img-fluid rounded-custom" title="Activity 4">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 50px;">
+                <a href="" class="btn btn-info btn-lg text-white">Load more</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid scroll-animation">
+        <div class="container">
+            <div class="row" style="margin-top: 100px;">
+                <div class="col-md-5 d-flex flex-column justify-content-center text-center">
+                    <h1>RIT Division</h1>
+                    <p>Kami memiliki beberapa divisi, diantaranya:</p>
+                </div>
+                <div class="col-md-7 bg-info rounded2 p-4 d-flex align-items-center backdiv">
+                    <img style="max-height: 200px; margin-right: 30px;" src="{% static 'img/rit-singlepage.png' %}" class="img-fluid rounded" alt="Logo-RIT">
+                    <div class="info">
+                        <div class="activity-text" style="opacity: 0; transition: opacity 1s;">
+                            <h3 class="divisi-name"><a href="#" style="text-decoration: none; color: white;">Web Division</a></h3>
+                            <p class="divisi-desc">Divisi yang berfokus pada pengembangan website. Mencakup tampilan web dan sistem web yang ditawarkan.</p>
+                        </div>
+                        <div class="activity-text" style="opacity: 0; transition: opacity 1s;">
+                            <h3 class="divisi-name"><a href="#" style="text-decoration: none; color: white;">GameDev Division</a></h3>
+                            <p class="divisi-desc">Divisi yang berfokus pada pengembangan gim. Mencakup desain grafis, desain audio, dan pengujian game.</p>
+                        </div>
+                        <div class="activity-text" style="opacity: 0; transition: opacity 1s;">
+                            <h3 class="divisi-name"><a href="#" style="text-decoration: none; color: white;">IoT Division</a></h3>
+                            <p class="divisi-desc">Divisi yang berfokus pada pengembangan solusi IoT. Mencakup konsep perangkat dan purwarupa perangkat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid backdoc scroll-animation">
+        <div class="container" style="margin-top: 100px;">
+            <h1 class="text-center">Documentation</h1>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <img class="img-fluid rounded-custom2" src="{% static 'img/sample1.png' %}" alt="">
+                    <img class="img-fluid rounded-custom2" style="margin-top: 30px;" src="{% static 'img/sample2.png' %}" alt="">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid rounded-custom2" style="border-radius: 20px; object-fit: cover; width: 100%; height: 100%;" src="{% static 'img/sample5.png' %}" alt="">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid rounded-custom2" style="max-height: 300px;" src="{% static 'img/sample4.png' %}" alt="">
+                    <img class="img-fluid rounded-custom2" style="max-height: 300px; margin-top: 30px;" src="{% static 'img/sample1.png' %}" alt="">
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 50px;">
+                <a href="" class="btn btn-info btn-lg text-white">Load more</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="responsive-container-block outer-container">
+        <div class="responsive-container-block inner-container">
+          <p class="text-blk section-head-text">
+            Team Developer
+          </p>
+          <p class="text-blk section-subhead-text">
+            Para Pengembang Web Site ini diantaranya.
+          </p>
+          <div class="responsive-container-block">
+            <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container">
+              <div class="team-card">
+                <div class="img-wrapper">
+                  <img class="team-img" src="{% static "img/MuhammadThariq.png" %}">
+                </div>
+                <p class="text-blk name mt-2">
+                  Muhammad Atthoriq
+                </p>
+                <p class="text-blk position text-center" style="font-size: 20px;">
+                  Analys & Database Engineer
+                </p>
+                <div class="social-media-links">
+                  <a href="http://www.twitter.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                  </a>
+                  <a href="http://www.facebook.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                  </a>
+                  <a href="https://www.instagram.com/m.atthoriq_oiq?igsh=ZjdidHJiNmhyMWRn" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                  </a>
+                  <a href="http://www.gmail.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container">
+              <div class="team-card">
+                <div class="img-wrapper">
+                  <img class="team-img" src="{% static 'img/Basir.png' %}">
+                </div>
+                <p class="text-blk name mt-2">
+                  Ahmad Basir
+                </p>
+                <p class="text-blk position" style="font-size: 20px;">
+                  UI/UX Design
+                </p>
+                <div class="social-media-links">
+                  <a href="http://www.twitter.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                  </a>
+                  <a href="http://www.facebook.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                  </a>
+                  <a href="https://www.instagram.com/_ahmdbsir?utm_source=qr&igsh=bzBoemx0NzA3dTQ3" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                  </a>
+                  <a href="http://www.gmail.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container">
+              <div class="team-card">
+                <div class="img-wrapper">
+                  <img class="team-img" src="{% static 'img/AzmiRenalji.JPG' %}">
+                </div>
+                <p class="text-blk name mt-2">
+                  Azmi Renalji
+                </p>
+                <p class="text-blk position" style="font-size: 20px;">
+                  Full Stack Engineer
+                </p>
+                <div class="social-media-links">
+                  <a href="http://www.twitter.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
+                  </a>
+                  <a href="http://www.facebook.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
+                  </a>
+                  <a href="http://www.instagram.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
+                  </a>
+                  <a href="http://www.gmail.com/" target="_blank">
+                    <img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+
+    {% include "includes/footer.html" %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".team-img");
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const closeModal = document.querySelector(".close");
+    
+        function disableScroll() {
+            document.body.style.overflow = "hidden";
+        }
+    
+        function enableScroll() {
+            document.body.style.overflow = "";
+        }
+    
+        modal.style.display = "none";
+
+        images.forEach(img => {
+            img.addEventListener("click", function () {
+                modal.style.display = "flex";
+                modalImg.src = this.src;
+                disableScroll(); // Mencegah scroll saat modal terbuka
+            });
+        });
+    
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+            enableScroll(); // Mengembalikan scroll saat modal ditutup
+        });
+    
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+                enableScroll();
+            }
+        });
+    });        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
