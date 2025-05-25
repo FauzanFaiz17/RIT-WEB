@@ -21,7 +21,7 @@ class User(AbstractUser):
         ('Ketua Komunitas', 'Ketua Komunitas'),
     ]
         nama_lengkap = models.CharField(max_length=100, blank=True, default="Tidak Diisi")
-        no_hp = models.CharField(max_length=15, blank=True, default="0000000000")
+        no_hp = models.CharField(max_length=15, blank=True, default="")
         tanggal_lahir = models.DateField(null=True, blank=True)
         npm = models.CharField(max_length=15, unique=True, blank=True, null=True)
         prodi = models.CharField(max_length=50,choices=PRODI_CHOICES,blank=True,default="-")
