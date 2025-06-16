@@ -32,7 +32,6 @@ class Migration(migrations.Migration):
                 ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
                 ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('nama_lengkap', models.CharField(blank=True, default='Tidak Diisi', max_length=100)),
                 ('no_hp', models.CharField(blank=True, default='0000000000', max_length=15)),
                 ('tanggal_lahir', models.DateField(blank=True, null=True)),
                 ('npm', models.CharField(blank=True, max_length=15, null=True, unique=True)),

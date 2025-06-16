@@ -20,7 +20,6 @@ class User(AbstractUser):
         ('Ketua Divisi', 'Ketua Divisi'),
         ('Ketua Komunitas', 'Ketua Komunitas'),
     ]
-        nama_lengkap = models.CharField(max_length=100, blank=True, default="Tidak Diisi")
         no_hp = models.CharField(max_length=15, blank=True, default="")
         tanggal_lahir = models.DateField(null=True, blank=True)
         npm = models.CharField(max_length=15, unique=True, blank=True, null=True)
@@ -40,7 +39,7 @@ class User(AbstractUser):
         )
 
 def __str__(self):
-    return f"{self.nama_lengkap} ({self.jabatan or 'Tanpa Jabatan'})"
+    return f"{self.username} ({self.jabatan or 'Tanpa Jabatan'})"
 
 class Komunitas(models.Model):
     nama = models.CharField(max_length=255)

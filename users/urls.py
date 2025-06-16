@@ -1,15 +1,23 @@
 from django.urls import path
-from . import views
+from .views import index,maintenance,game,register_user,login_view, dashboard, contoh,profile_view,update_foto_profil
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('', views.index, name='home'),
-    path('login/', views.maintenance, name='login'),
-    path('register/', views.register, name='register'),
-    path('it-community/', views.maintenance, name='it-community'),
-    path('game-community/', views.maintenance, name='game-community'),
-    path('game-division/', views.maintenance, name='game-division'),
-    path('web-division/', views.maintenance, name='web-division'),
-    path('iot-division/', views.maintenance, name='iot-division'),
-    path('activities/', views.maintenance, name='activities'),
+    path('', index, name='home'),
+    path('it-community/', maintenance, name='it-community'),
+    path('game-community/', game, name='game-community'),
+    path('game-division/', maintenance, name='game-division'),
+    path('web-division/', maintenance, name='web-division'),
+    path('iot-division/', maintenance, name='iot-division'),
+    path('activities/', maintenance, name='activities'),
+
+
+    path('register/', register_user, name='register'),
+    path('login/', login_view, name='login'),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('contoh/', contoh, name='contoh'),
+    path('profile/', profile_view, name='profile'),
+    path('update-foto/', update_foto_profil, name='update_foto'),
+    path("logout/", LogoutView.as_view(next_page="login"), name="logout"),
 ]
 

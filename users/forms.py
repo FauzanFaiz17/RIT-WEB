@@ -1,15 +1,82 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from django.contrib.auth import get_user_model
 
-class CustomUserCreationForm(UserCreationForm):
+User = get_user_model()
+
+class LoginForm(forms.Form):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            "placeholder": "Username",
+            "class": "form-control"
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            "placeholder": "Password",
+            "class": "form-control"
+        })
+    )
+
+
+class SignUpForm(UserCreationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            "placeholder": "Username",
+            "class": "form-control"
+        })
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            "placeholder": "Email",
+            "class": "form-control"
+        })
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            "placeholder": "Password",
+            "class": "form-control"
+        })
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            "placeholder": "Password check",
+            "class": "form-control"
+        })
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+
+class UpdateProfileForm(forms.ModelForm):
+    tanggal_lahir = forms.DateField(
+        widget=forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class': 'form-control', 'type': 'text'}),
+        required=False
+    )
+
     class Meta:
         model = User
         fields = [
-            'username', 'email', 'nama_lengkap', 'no_hp',
-            'tanggal_lahir', 'npm', 'prodi', 'semester',
-            'jabatan', 'foto_profil', 'password1', 'password2'
+            'first_name', 'last_name', 'email', 'tanggal_lahir', 'no_hp',
+            'npm', 'prodi', 'semester', 'jabatan', 'foto_profil'
         ]
         widgets = {
-            'tanggal_lahir': forms.DateInput(attrs={'type': 'date'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'no_hp': forms.TextInput(attrs={'class': 'form-control'}),
+            'npm': forms.TextInput(attrs={'class': 'form-control'}),
+            'prodi': forms.Select(attrs={'class': 'form-select'}),
+            'semester': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 14}),
+            'jabatan': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+class UpdateFotoProfilForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['foto_profil']
+        widgets = {
+            'foto_profil': forms.FileInput(attrs={'class': 'form-control'})
         }

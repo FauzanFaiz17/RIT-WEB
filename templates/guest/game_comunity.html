@@ -5,6 +5,32 @@
 
 {% block content %}
 
+        <div class="container">
+            <h1 class="text-center fw-bold fs-1 mt-5">Activities</h1>
+            <p class="text-center">Berikut beberapa kegiatan yang kami lakukan :</p>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/kegiatan1.jpg' %}" alt="Activity 1" class="shadow-lg img-fluid rounded-custom" title="Activity 1">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/kegiatan2.jpg' %}" alt="Activity 2" class="shadow-lg img-fluid rounded-custom" title="Activity 2">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample3.png' %}" alt="Activity 3" class="shadow-lg img-fluid rounded-custom" title="Activity 3">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+                <div class="col-md-3 text-center activity-item">
+                    <img src="{% static 'img/sample4.png' %}" alt="Activity 4" class="shadow-lg img-fluid rounded-custom" title="Activity 4">
+                    <p style="margin-top:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer aliquam neque non felis finibus, consequat cursus</p>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 50px;">
+                <a href="" class="btn btn-info btn-lg text-white">Load more</a>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}
