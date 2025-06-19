@@ -8,13 +8,24 @@ def index(request):
     return render(request,'index.html')
 
 def dashboard(request):
-    return render(request,'home/dashboard.html')
+    return render(request,'users/dashboard.html')
 
 def maintenance(request):
     return render(request,'maintenance.html')
 
 def game(request):
     return render(request,'guest/game_comunity.html')
+
+def Anggota(request):
+    return render(request,'users/anggota/index.html')
+
+
+def keuangan(request):
+    return render(request,'users/keuangan/index.html')
+def inventaris(request):
+    return render(request,'users/inventaris/index.html')
+def surat(request):
+    return render(request,'users/surat/index.html')
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -58,7 +69,7 @@ def register_user(request):
 
 
 def contoh(request):
-    return render(request,'home/profile.html')
+    return render(request,'users/profile.html')
 
 @login_required
 def profile_view(request):
@@ -75,7 +86,7 @@ def profile_view(request):
     else:
         form = UpdateProfileForm(instance=user)
 
-    return render(request, 'home/profile.html', {'form': form})
+    return render(request, 'users/profile.html', {'form': form})
 
 @login_required
 def update_foto_profil(request):

@@ -1,0 +1,115 @@
+{% extends "layouts/base.html" %}
+{% block title %}Edit Kegiatan{% endblock %}
+{% block content %}
+
+<div class="py-4">
+  <div class="mb-3">
+    <h1 class="h4">Edit Kegiatan RIT</h1>
+    <p>Perbarui data kegiatan di bawah ini.</p>
+  </div>
+</div>
+
+<div class="card border-0 shadow mb-4">
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.nama.id_for_label }}">Nama Kegiatan</label>
+          {{ form.nama }}
+          {{ form.nama.errors }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="id_jenis">Jenis</label>
+          <input type="text" class="form-control" id="id_jenis" name="jenis" value="Kegiatan" readonly>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.deskripsi.id_for_label }}">Deskripsi</label>
+        {{ form.deskripsi }}
+        {{ form.deskripsi.errors }}
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="id_tanggal">Tanggal</label>
+          <div class="input-group">
+              <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+              <input data-datepicker
+                  type="text"
+                  name="tanggal"
+                  class="form-control"
+                  id="id_tanggal"
+                  placeholder="dd/mm/yyyy"
+                  value="{{ form.tanggal.value|default_if_none:'' }}">
+          </div>
+          {{ form.tanggal.errors }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.status.id_for_label }}">Status</label>
+          {{ form.status }}
+          {{ form.status.errors }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.ketua_pelaksana.id_for_label }}">Ketua Pelaksana</label>
+          {{ form.ketua_pelaksana }}
+          {{ form.ketua_pelaksana.errors }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.komunitas.id_for_label }}">Komunitas</label>
+          {{ form.komunitas }}
+          {{ form.komunitas.errors }}
+        </div>
+      </div>
+
+      
+
+      <div class="mb-3">
+        <label for="id_foto_kegiatan">Upload Foto Baru</label>
+        <input type="file" name="foto_kegiatan" id="id_foto_kegiatan" class="form-control" multiple>
+        <small class="form-text text-muted">Pilih satu atau lebih foto tambahan</small>
+      </div>
+
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Perbarui</button>
+      </div>
+    </form>
+    <div class="mb-3">
+        <label>Foto Kegiatan yang Sudah Ada</label>
+        <div class="row">
+          {% for foto in kegiatan.fotos.all %}
+            <div class="col-md-3 mb-2">
+              <img src="{{ foto.foto_kegiatan.url }}" class="img-fluid rounded border" alt="Foto Kegiatan">
+              <!-- Hapus jika mau -->
+              <form action="{% url 'hapus_foto_kegiatan' foto.id %}" method="post" class="mt-1">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+              </form>
+            </div>
+          {% empty %}
+            <p class="text-muted">Belum ada foto.</p>
+          {% endfor %}
+        </div>
+      </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dateInputs = document.querySelectorAll("[data-datepicker]");
+    dateInputs.forEach(function (el) {
+      new Datepicker(el, {
+        format: "dd/mm/yyyy",
+        autohide: true
+      });
+    });
+  });
+</script>
+{% endblock %}
