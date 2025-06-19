@@ -20,8 +20,6 @@ def Anggota(request):
     return render(request,'users/anggota/index.html')
 
 
-def keuangan(request):
-    return render(request,'users/keuangan/index.html')
 def inventaris(request):
     return render(request,'users/inventaris/index.html')
 def surat(request):

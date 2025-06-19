@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'keuangan',
     'inventaris',
     'surat',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

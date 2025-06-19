@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index,maintenance,game,register_user,login_view, dashboard, contoh,profile_view,update_foto_profil,Anggota,keuangan,inventaris,surat
+from .views import index,maintenance,game,register_user,login_view, dashboard, contoh,profile_view,update_foto_profil,Anggota,inventaris,surat
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -24,8 +24,6 @@ urlpatterns = [
     
     path('Anggota/', Anggota, name='Anggota'),
 
-
-    path('keuangan/', keuangan, name='keuangan'),
     path('inventaris/', inventaris, name='inventaris'),
     path('surat/', surat, name='surat'),
 ]
