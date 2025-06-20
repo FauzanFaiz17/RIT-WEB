@@ -20,9 +20,6 @@ def Anggota(request):
     return render(request,'users/anggota/index.html')
 
 
-def surat(request):
-    return render(request,'users/surat/index.html')
-
 def login_view(request):
     form = LoginForm(request.POST or None)
     msg = None

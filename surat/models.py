@@ -1,21 +1,18 @@
 from django.db import models
 
-class SuratMasuk(models.Model):
+class Surat(models.Model):
+    JENIS_CHOICES = (
+    ('masuk', 'Surat Masuk'),
+    ('keluar', 'Surat Keluar'),
+    )
+    
     nomor = models.CharField(max_length=100)
+    perihal = models.CharField(max_length=255)
+    jenis = models.CharField(max_length=10, choices=JENIS_CHOICES)
+    tanggal = models.DateField()
+    keterangan = models.TextField()
     pengirim = models.CharField(max_length=255)
-    tanggal = models.DateField()
-    perihal = models.CharField(max_length=255)
-    file = models.FileField(upload_to='surat_masuk/')
-
-    def __str__(self):
-        return self.nomor
-
-class SuratKeluar(models.Model):
-    nomor = models.CharField(max_length=100)
-    penerima = models.CharField(max_length=255)
-    tanggal = models.DateField()
-    perihal = models.CharField(max_length=255)
-    file = models.FileField(upload_to='surat_keluar/')
+    file = models.FileField(upload_to='surat/', blank=True, null=True)
 
     def __str__(self):
         return self.nomor

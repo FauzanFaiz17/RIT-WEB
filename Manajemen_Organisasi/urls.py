@@ -25,7 +25,7 @@ urlpatterns = [
     path('kegiatan/', include('kegiatan.urls')),
     path('keuangan/', include('keuangan.urls')),
     path('inventaris/', include('inventaris.urls')),
-    # path('surat/', include('surat.urls')),
+    path('surat/', include('surat.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
