@@ -14,30 +14,31 @@
           <th>No</th>
           <th>Nama projek</th>
           <th>Divisi</th>
-          <th>Status</th>
+          <th>Progres</th>
           <th>Aksi</th>
         </tr>
       </thead>
       <tbody class="text-center">
-        {% for projek in projek %}
-        <tr class="clickable-row" style="cursor: pointer;" onclick="window.location.href='{% url 'projek_proses' projek.id %}'">
-          <td>{{ forloop.counter }}</td>
-          <td>{{ projek.nama }}</td>
-          <td>{{ projek.divisi }}</td>
-          <td>{{ projek.status }}</td>
-          <td>
-            <a href="{% url 'edit_projek' projek.id %}" class="btn btn-warning btn-sm">Edit</a>
-            <form action="" method="POST" style="display: inline;">
-              {% csrf_token %}
-              <a href="{% url 'hapus_projek' projek.id %}" class="btn btn-danger btn-sm">Hapus</a>
-            </form>
-          </td>
-        </tr>
+        {% for item in projek_list %}
+          <tr class="clickable-row" style="cursor: pointer;" onclick="window.location.href='{% url 'projek_proses' item.projek.id %}'">
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.projek.nama }}</td>
+            <td>{{ item.projek.divisi }}</td>
+            <td>{{ item.progress }}%</td>
+            <td>
+              <a href="{% url 'edit_projek' item.projek.id %}" class="btn btn-warning btn-sm">Edit</a>
+              <form action="{% url 'hapus_projek' item.projek.id %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+              </form>
+            </td>
+          </tr>
         {% empty %}
           <tr>
-            <td colspan="8">Tidak ada projek yang tersedia.</td>
+            <td colspan="5">Tidak ada projek yang tersedia.</td>
           </tr>
         {% endfor %}
+
       </tbody>
     </table>
 </div>

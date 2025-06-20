@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('aktivitas/', include('kegiatan.urls')),
     path('projek/', include('projek_manajemen.urls')),
-    # path('keuangan/', include('keuangan.urls')),
+    path('keuangan/', include('keuangan.urls')),
     # path('inventaris/', include('inventaris.urls')),
     # path('surat/', include('surat.urls')),
 ]

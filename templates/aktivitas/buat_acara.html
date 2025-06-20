@@ -1,12 +1,9 @@
 {% extends "layouts/base.html" %}
+{% block title %}Buat Acara{% endblock title %}
 
 {% block content %}
 <div class="container">
       <h2>Buat acara Baru</h2>
-
-      {% if messages %} {% for message in messages %}
-      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-      {% endfor %} {% endif %}
 
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}

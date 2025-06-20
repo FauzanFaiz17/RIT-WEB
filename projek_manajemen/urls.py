@@ -14,4 +14,5 @@ urlpatterns = [
     path('projek/<int:project_id>/task/<int:task_id>/edit-subtask/<int:subtask_id>/', views.edit_subtask, name='edit_subtask'),
     path('projek/<int:project_id>/task/<int:task_id>/hapus-subtask/<int:subtask_id>/', views.hapus_subtask, name='hapus_subtask'),
     path('projek/<int:project_id>/export-pdf/', views.export_pdf_projek, name='export_pdf_projek'),
+    path("api/subtasks/<int:project_id>/", views.api_subtasks, name="api_subtasks"),
 ]

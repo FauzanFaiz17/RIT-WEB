@@ -1,0 +1,51 @@
+<div class="row">
+        <div class="col-12 col-xl-8">
+            <div class="card card-body border-0 shadow mb-4">
+                <h2 class="h5 mb-4">General information</h2>
+                <form method="POST" action="{% url 'tambah_keuangan' %}">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nama">Nama Transaksi</label>
+                            <input class="form-control" id="nama" name="nama" type="text"
+                                value="{{ form.nama.value|default_if_none:'' }}" placeholder="Contoh: Uang kas" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="jenis">Jenis Transaksi</label>
+                            <select class="form-select" id="jenis" name="jenis" required>
+                                <option value="" disabled {% if not form.jenis.value %}selected{% endif %}>Pilih jenis</option>
+                                <option value="masuk" {% if form.jenis.value == "masuk" %}selected{% endif %}>Pemasukan</option>
+                                <option value="keluar" {% if form.jenis.value == "keluar" %}selected{% endif %}>Pengeluaran</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tanggal">Tanggal</label>
+                            <input class="form-control" id="tanggal" name="tanggal" type="date"
+                                value="{{ form.tanggal.value|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="jumlah">Jumlah (Rp)</label>
+                            <input class="form-control" id="jumlah" name="jumlah" type="number" min="1"
+                                value="{{ form.jumlah.value|default_if_none:'' }}" placeholder="Contoh: 50000" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="keterangan">Keterangan (opsional)</label>
+                        <textarea class="form-control" id="keterangan" name="keterangan" rows="3">{{ form.keterangan.value }}</textarea>
+                    </div>
+
+                    <div class="mt-3">
+                        <button class="btn btn-primary" type="submit">
+                            {% if form.instance.pk %}Update{% else %}Tambah{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- tempat notif -->
+        </div>
+    </div>

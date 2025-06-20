@@ -1,11 +1,13 @@
 from django.db import models
 from users.models import User, Divisi
+from django.utils import timezone
 
 class Project(models.Model):
     nama = models.CharField(max_length=255)
     deskripsi = models.TextField(null=True, blank=True)
     kepala = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='project_dipimpin')
     divisi = models.ForeignKey(Divisi, on_delete=models.CASCADE, related_name='projects')
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.nama
@@ -24,6 +26,7 @@ class Task(models.Model):
     tanggal_mulai = models.DateField()
     tanggal_selesai = models.DateField()
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='belum_mulai')
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.nama} ({self.project.nama})"
@@ -44,6 +47,7 @@ class Subtask(models.Model):
     tanggal_selesai = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='belum_mulai')
     laporan_path = models.FileField(upload_to='laporan_subtask/', null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.nama} - {self.assignee.namadepan if self.assignee else 'No Assignee'}"

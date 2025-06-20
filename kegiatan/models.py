@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import Komunitas, Divisi, User
+from django.utils import timezone
 
 class Aktivitas(models.Model):
     STATUS_CHOICES = [
@@ -24,6 +25,7 @@ class Aktivitas(models.Model):
     jenis = models.CharField(max_length=20, choices=JENIS_CHOICES)
     untuk_semua = models.BooleanField(default=False)
     dibuat_oleh = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.nama} ({self.jenis})"

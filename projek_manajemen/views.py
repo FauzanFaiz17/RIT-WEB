@@ -4,13 +4,36 @@ from .forms import ProjectForm, TaskForm, SubtaskForm
 from .models import Project, Task, Subtask
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 
 def daftar_project(request):
     projek = Project.objects.all()
+    projek_dengan_progress = []
+
+    for projek in projek:
+        tasks = Task.objects.filter(project=projek).prefetch_related('subtasks')
+
+        total_subtasks = 0
+        selesai_subtasks = 0
+
+        for task in tasks:
+            subtasks = task.subtasks.all()
+            total_subtasks += subtasks.count()
+            selesai_subtasks += subtasks.filter(status__iexact='selesai').count()
+
+        if total_subtasks > 0:
+            progress = int((selesai_subtasks / total_subtasks) * 100)
+        else:
+            progress = 0
+
+        projek_dengan_progress.append({
+            'projek': projek,
+            'progress': progress
+        })
+
     return render(request, 'projek_manajemen/daftar_projek.html', {
-        'projek': projek
+        'projek_list': projek_dengan_progress
     })
 
 def buat_project(request):
@@ -56,22 +79,39 @@ def hapus_projek(request, project_id):
 def projek_proses(request, project_id):
     projek = Project.objects.get(id=project_id)
     tasks = Task.objects.filter(project=projek).prefetch_related('subtasks')
+
+     # Hitung semua subtask di projek ini
+    total_subtasks = 0
+    selesai_subtasks = 0
+
+    for task in tasks:
+        subtasks = task.subtasks.all()
+        total_subtasks += subtasks.count()
+        selesai_subtasks += subtasks.filter(status__iexact='selesai').count()
+
+    # Hitung persentase progress projek
+    if total_subtasks > 0:
+        projek_progress = int((selesai_subtasks / total_subtasks) * 100)
+    else:
+        projek_progress = 0
+
     return render(request, 'projek_manajemen/projek_proses.html', {
         'projek': projek,
         'tasks': tasks,
+        'projek_progress': projek_progress,
     })
-
 
 def buat_task(request, project_id):
     projek = Project.objects.get(id=project_id)
+    
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
-            task.project = projek
-            task.save()
-            messages.success(request, "Tugas berhasil dibuat.")
-            return redirect('projek_proses', project_id=project_id)
+            task.project = projek  # ✅ Penting! Assign project dulu
+            task.save()  # Baru simpan ke DB
+            messages.success(request, "Task berhasil dibuat.")
+            return redirect('projek_proses', project_id=projek.id)
     else:
         form = TaskForm()
 
@@ -115,7 +155,7 @@ def buat_subtask(request, project_id, task_id):
     projek = Project.objects.get(id=project_id)
     task = Task.objects.get(id=task_id)
     if request.method == 'POST':
-        form = SubtaskForm(request.POST)
+        form = SubtaskForm(request.POST, task=task)
         if form.is_valid():
             subtask = form.save(commit=False)
             subtask.task = task  # Assuming you have a field for parent task
@@ -124,7 +164,7 @@ def buat_subtask(request, project_id, task_id):
             messages.success(request, "Subtask berhasil dibuat.")
             return redirect('projek_proses', project_id=project_id)
     else:
-        form = SubtaskForm()
+        form = SubtaskForm(task=task)
 
     return render(request, 'projek_manajemen/buat_subtask.html', {
         'form': form,
@@ -137,13 +177,13 @@ def edit_subtask(request, project_id, task_id, subtask_id):
     task = Task.objects.get(id=task_id)
     subtask = Subtask.objects.get(id=subtask_id)
     if request.method == 'POST':
-        form = SubtaskForm(request.POST, instance=subtask)
+        form = SubtaskForm(request.POST, instance=subtask, task=task)
         if form.is_valid():
             form.save()
             messages.success(request, "Subtask berhasil diperbarui.")
             return redirect('projek_proses', project_id=project_id)
     else:
-        form = SubtaskForm(instance=subtask)
+        form = SubtaskForm(instance=subtask, task=task)
 
     return render(request, 'projek_manajemen/edit_subtask.html', {
         'form': form,
@@ -183,3 +223,23 @@ def export_pdf_projek(request, project_id):
     if pisa_status.err:
         return HttpResponse('Terjadi kesalahan saat generate PDF')
     return response
+
+def api_subtasks(request, project_id):
+    tasks = Task.objects.filter(project_id=project_id).prefetch_related('subtasks')
+    result = []
+
+    for task in tasks:
+        for sub in task.subtasks.all():
+            if sub.tanggal_mulai and sub.tanggal_selesai:
+                durasi = (sub.tanggal_selesai - sub.tanggal_mulai).days
+                result.append({
+                    "id": f"subtask{sub.id}",
+                    "nama": sub.nama,
+                    "tanggal_mulai": sub.tanggal_mulai.isoformat(),
+                    "tanggal_selesai": sub.tanggal_selesai.isoformat(),
+                    "status": sub.status,
+                    "duration": max(durasi, 1)
+                })
+
+    return JsonResponse(result, safe=False)
+
