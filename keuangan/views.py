@@ -1,19 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-
 from .models import Keuangan, FotoKeuangan
-from .forms import KeuanganForm, FotoKeuanganFormSet
+from .forms import KeuanganForm
 from .controller import hitung_sisa_keuangan
 from django.db.models import Sum
 from django.db import transaction
+from django.core.paginator import Paginator
+
 
 def keuangan(request):
-    keuangan_list = Keuangan.objects.order_by('tanggal', 'id')
+    keuangan_queryset = Keuangan.objects.all().order_by('-tanggal')
+    paginator = Paginator(keuangan_queryset, 5)  # tampilkan 5 data per halaman
+
+    page_number = request.GET.get('page')  # ambil nomor halaman dari query string (?page=2)
+    page_obj = paginator.get_page(page_number)  # ambil halaman terkait
+
+
+
     total_masuk = Keuangan.objects.filter(jenis='masuk').aggregate(Sum('jumlah'))['jumlah__sum'] or 0
     total_keluar = Keuangan.objects.filter(jenis='keluar').aggregate(Sum('jumlah'))['jumlah__sum'] or 0
     saldo = total_masuk - total_keluar
     context = {
-        'keuangan_list': keuangan_list,
+        'keuangan_list': page_obj,
         'total_masuk': total_masuk,
         'total_keluar': total_keluar,
         'saldo': saldo
@@ -63,6 +71,7 @@ def edit_keuangan(request, pk):
                         keuangan=keuangan,
                         foto_keuangan=file
                     )
+            hitung_sisa_keuangan()
             messages.success(request, "Data keuangan berhasil diperbarui.")
             return redirect('keuangan')
         else:

@@ -1,0 +1,78 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Transactions {% endblock %} 
+{% load humanize %}
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+
+<div class="row">
+        <div class="col-12 col-xl-8">
+            <div class="card card-body border-0 shadow mb-4">
+                <h2 class="h5 mb-4">Tambah Barang</h2>
+                <form method="POST" enctype="multipart/form-data" action="{% url 'tambah_barang' %}">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nama_barang">Nama Barang</label>
+                            <input class="form-control" id="nama_barang" name="nama_barang" type="text"
+                                value="{{ form.nama_barang.value|default_if_none:'' }}" placeholder="Contoh: Lemari" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="sebelum">sebelum (Rp)</label>
+                            <input class="form-control" id="sebelum" name="sebelum" type="number" min="1"
+                                value="{{ form.sebelum.value|default_if_none:'' }}" placeholder="Contoh: 4" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="ditambah">ditambah (Rp)</label>
+                            <input class="form-control" id="ditambah" name="ditambah" type="number" min="1"
+                                value="{{ form.ditambah.value|default_if_none:'' }}" placeholder="Contoh: 7" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="digunakan">Digunakan (Rp)</label>
+                            <input class="form-control" id="digunakan" name="digunakan" type="number" min="1"
+                                value="{{ form.digunakan.value|default_if_none:'' }}" placeholder="Contoh: 7" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="sisa">Sisa (Rp)</label>
+                            <input class="form-control" id="sisa" name="sisa" type="number" min="1"
+                                value="{{ form.sisa.value|default_if_none:'' }}" placeholder="Contoh: 7" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tanggal">Tanggal</label>
+                            <input class="form-control" id="tanggal" name="tanggal" type="date"
+                                value="{{ form.tanggal.value|date:'Y-m-d' }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="keterangan">Keterangan (opsional)</label>
+                        <textarea class="form-control" id="keterangan" name="keterangan" rows="3">{{ form.keterangan.value }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto_barang">Upload Foto Barang (boleh lebih dari satu)</label>
+                        <input class="form-control" type="file" name="foto_barang" id="foto_barang" multiple>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-primary" type="submit">
+                            {% if form.instance.pk %}Update{% else %}Tambah{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- tempat notif -->
+        </div>
+    </div>
+
+    {% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
