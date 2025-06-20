@@ -1,0 +1,13 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h3>Konfirmasi Hapus</h3>
+  <p>Yakin mau hapus acara <strong>{{ aktivitas.nama }}</strong>?</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+    <a href="{% url 'daftar_acara' %}" class="btn btn-secondary">Batal</a>
+  </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<h1 class="text-center mt-4">DAFTAR KEGIATAN</h1>
+<div class="d-flex justify-content-start">
+  <a href="{% url "buat_kegiatan" %}" class="mt-3">
+    <button class="btn btn-primary">Buat Kegiatan</button>
+  </a>
+</div>
+<div class="table-responsive">
+    <table class="table table-flush" id="datatable">
+      <thead class="thead-light">
+        <tr>
+          <th>No</th>
+          <th>Nama Kegiatan</th>
+          <th>Tanggal Mulai</th>
+          <th>Tanggal Selesai</th>
+          <th>Komunitas</th>
+          <th>Divisi</th>
+          <th>Status</th>
+          <th>Gambar</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        {% for kegiatan in kegiatan_list %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ kegiatan.nama }}</td>
+          <td>{{ kegiatan.tanggal_mulai }}</td>
+          <td>{{ kegiatan.tanggal_selesai }}</td>
+          <td>{{ kegiatan.komunitas }}</td>
+          <td>{{ kegiatan.divisi }}</td>
+          <td>{{ kegiatan.status }}</td>
+          <td>
+            {% for gambar in kegiatan.gambar_list.all %}
+              {% if gambar.gambar %}
+                <img
+                  src="{{ gambar.gambar.url }}"
+                  alt="Gambar Kegiatan"
+                  style="width: 100px; height: auto"
+                />
+              {% else %}
+                Tidak ada gambar
+              {% endif %}
+            {% empty %}
+              Tidak ada gambar
+            {% endfor %}
+          </td>
+          <td>
+            <a href="{% url 'edit_kegiatan' kegiatan.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <form action="{% url 'hapus_kegiatan' kegiatan.id %}" method="POST" style="display: inline;">
+              {% csrf_token %}
+              <a href="{% url 'hapus_kegiatan' kegiatan.id %}" class="btn btn-danger btn-sm">Hapus</a>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+          <tr>
+            <td colspan="8">Tidak ada kegiatan yang tersedia.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock content %}

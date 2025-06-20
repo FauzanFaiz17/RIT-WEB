@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div class="container">
+      <h2>Buat Kegiatan Baru</h2>
+
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %} {% endif %}
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="id_nama">Nama Kegiatan:</label>
+          {{ aktivitas_form.nama }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_deskripsi">Tanggal mulai:</label>
+          {{ aktivitas_form.tanggal_mulai }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_deskripsi">Tanggal selesai:</label>
+          {{ aktivitas_form.tanggal_selesai }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_deskripsi">Deskripsi:</label>
+          {{ aktivitas_form.deskripsi }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_divisi">Status:</label>
+          {{ aktivitas_form.status }}
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Komunitas</label>
+          <select id="komunitas" name="komunitas" class="form-control" onchange="toggleDivisi(this)">
+          {% for komunitas in komunitas_list %}
+          <option value="{{ komunitas.id }}" {% if request.user.komunitas and request.user.komunitas.id == komunitas.id %}selected{% endif %}>
+              {{ komunitas.nama }}
+          </option>
+          {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Divisi</label>
+          <select id="divisi" name="divisi" class="form-control">
+          {% for divisi in divisi_list %}
+          <option value="{{ divisi.id }}" {% if request.user.divisi and request.user.divisi.id == divisi.id %}selected{% endif %}>
+              {{ divisi.nama }}
+          </option>
+          {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="id_jenis">Jenis:</label>
+          {{ aktivitas_form.jenis }}
+        </div>
+
+        <fieldset class="form-group">
+          <legend>Upload Gambar (Opsional)</legend>
+            <label for="id_gambar">Pilih Gambar (boleh banyak):</label>
+            <input
+              type="file"
+              name="gambar"
+              id="id_gambar"
+              multiple
+              class="form-control"
+            />
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary mt-5 mb-3">Simpan</button>
+      </form>
+    </div>
+{% endblock content %}

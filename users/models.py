@@ -57,7 +57,7 @@ class Divisi(models.Model):
     kepala = models.ForeignKey(User, related_name='kepala_divisi', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.nama} ({self.komunitas.nama})"
+        return f"{self.nama}"
 
 
 
