@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+{% block title %}Edit Projek{% endblock title %}
+{% block content %}
+
+<div class="container">
+  <h2 class="mb-4 mt-3">Edit Projek</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_nama">Nama Project:</label>
+      {{ form.nama }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_deskripsi">Deskripsi:</label>
+      {{ form.deskripsi }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_kepala">Kepala Project:</label>
+      {{ form.kepala }}
+    </div>
+
+    <div class="form-group">
+      <label for="id_divisi">Divisi:</label>
+      {{ form.divisi }}
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-4">Simpan</button>
+  </form>
+</div>
+
+{% endblock content %}

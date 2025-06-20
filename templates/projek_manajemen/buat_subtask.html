@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %}
+{% block title %} Buat Subtask {% endblock title %}
+{% block content %}
+<div class="container">
+  <h3 class="mt-4">Tambah Subtask untuk Project: {{ projek.nama }}</h3>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Nama Subtask:</label>
+      {{ form.nama }}
+    </div>
+
+    <div class="form-group">
+      <label>Tanggal Mulai:</label>
+      {{ form.tanggal_mulai }}
+    </div>
+
+    <div class="form-group">
+      <label>Tanggal Selesai:</label>
+      {{ form.tanggal_selesai }}
+    </div>
+
+    <div class="form-group">
+      <label>Status:</label>
+      {{ form.status }}
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Simpan</button>
+  </form>
+</div>
+{% endblock %}

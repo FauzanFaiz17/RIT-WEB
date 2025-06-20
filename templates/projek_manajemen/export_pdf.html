@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Projek: {{ projek.nama }}</h2>
+    <p>Divisi: {{ projek.divisi.nama }}</p>
+
+    {% for task in tasks %}
+        <h4>Task: {{ task.nama }}</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subtask</th>
+                    <th>Tanggal Mulai</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subtask in task.subtasks.all %}
+                <tr>
+                    <td>{{ subtask.nama }}</td>
+                    <td>{{ subtask.tanggal_mulai }}</td>
+                    <td>{{ subtask.tanggal_selesai }}</td>
+                    <td>{{ subtask.get_status_display }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Tidak ada subtask.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+</body>
+</html>

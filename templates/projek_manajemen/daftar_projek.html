@@ -1,0 +1,44 @@
+{% extends "layouts/base.html" %}
+{% block title %} Daftar Projek {% endblock title %}
+{% block content %}
+<h1 class="text-center mt-4">DAFTAR PROJEK</h1>
+<div class="d-flex justify-content-start">
+  <a href="{% url "buat_projek" %}" class="mt-3">
+    <button class="btn btn-primary">Buat Projek</button>
+  </a>
+</div>
+<div class="table-responsive">
+    <table class="table table-flush" id="datatable">
+      <thead class="thead-light text-center">
+        <tr>
+          <th>No</th>
+          <th>Nama projek</th>
+          <th>Divisi</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        {% for projek in projek %}
+        <tr class="clickable-row" style="cursor: pointer;" onclick="window.location.href='{% url 'projek_proses' projek.id %}'">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ projek.nama }}</td>
+          <td>{{ projek.divisi }}</td>
+          <td>{{ projek.status }}</td>
+          <td>
+            <a href="{% url 'edit_projek' projek.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <form action="" method="POST" style="display: inline;">
+              {% csrf_token %}
+              <a href="{% url 'hapus_projek' projek.id %}" class="btn btn-danger btn-sm">Hapus</a>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+          <tr>
+            <td colspan="8">Tidak ada projek yang tersedia.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock content %}

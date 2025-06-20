@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %}
+{% block title %} Edit Task {% endblock title %}
+{% block content %}
+<div class="container">
+  <h3 class="mt-4">Edit Task untuk Project: {{ projek.nama }}</h3>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Nama Task:</label>
+      {{ form.nama }}
+    </div>
+
+    <div class="form-group">
+      <label>Tanggal Mulai:</label>
+      {{ form.tanggal_mulai }}
+    </div>
+
+    <div class="form-group">
+      <label>Tanggal Selesai:</label>
+      {{ form.tanggal_selesai }}
+    </div>
+
+    <div class="form-group">
+      <label>Status:</label>
+      {{ form.status }}
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Simpan</button>
+  </form>
+</div>
+{% endblock %}

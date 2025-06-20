@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'keuangan',
     'inventaris',
     'surat',
+    'projek_manajemen',
 ]
 
 MIDDLEWARE = [
