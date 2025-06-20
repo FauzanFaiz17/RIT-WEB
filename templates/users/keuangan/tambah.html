@@ -1,8 +1,19 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Transactions {% endblock %} 
+{% load humanize %}
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+
 <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">General information</h2>
-                <form method="POST" action="{% url 'tambah_keuangan' %}">
+                <h2 class="h5 mb-4">Tambah Keuangan</h2>
+                <form method="POST" enctype="multipart/form-data" action="{% url 'tambah_keuangan' %}">
                     {% csrf_token %}
 
                     <div class="row">
@@ -38,7 +49,10 @@
                         <label for="keterangan">Keterangan (opsional)</label>
                         <textarea class="form-control" id="keterangan" name="keterangan" rows="3">{{ form.keterangan.value }}</textarea>
                     </div>
-
+                    <div class="mb-3">
+                        <label for="foto_keuangan">Upload Foto Keuangan (boleh lebih dari satu)</label>
+                        <input class="form-control" type="file" name="foto_keuangan" id="foto_keuangan" multiple>
+                    </div>
                     <div class="mt-3">
                         <button class="btn btn-primary" type="submit">
                             {% if form.instance.pk %}Update{% else %}Tambah{% endif %}
@@ -49,3 +63,8 @@
             <!-- tempat notif -->
         </div>
     </div>
+
+    {% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

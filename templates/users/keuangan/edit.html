@@ -1,0 +1,95 @@
+{% extends "layouts/base.html" %}
+{% block title %}Edit Keuangan{% endblock %}
+
+{% block content %}
+<div class="py-4">
+  <div class="mb-3">
+    <h1 class="h4">Edit Data Keuangan</h1>
+    <p>Perbarui data keuangan dan foto terkait di bawah ini.</p>
+  </div>
+</div>
+
+<div class="card border-0 shadow mb-4">
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.nama.id_for_label }}">Nama Transaksi</label>
+          {{ form.nama }}
+          {{ form.nama.errors }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.jenis.id_for_label }}">Jenis Transaksi</label>
+          {{ form.jenis }}
+          {{ form.jenis.errors }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.tanggal.id_for_label }}">Tanggal</label>
+          <div class="input-group">
+            <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+            <input data-datepicker type="text" name="tanggal" class="form-control" id="id_tanggal"
+                   placeholder="dd/mm/yyyy" value="{{ form.tanggal.value|date:'d/m/Y' }}">
+          </div>
+          {{ form.tanggal.errors }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="{{ form.jumlah.id_for_label }}">Jumlah</label>
+          {{ form.jumlah }}
+          {{ form.jumlah.errors }}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.keterangan.id_for_label }}">Keterangan</label>
+        {{ form.keterangan }}
+        {{ form.keterangan.errors }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_foto_keuangan">Upload Foto Baru</label>
+        <input type="file" name="foto_keuangan" id="id_foto_keuangan" class="form-control" multiple>
+        <small class="form-text text-muted">Pilih satu atau lebih foto tambahan</small>
+      </div>
+
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Perbarui</button>
+      </div>
+    </form>
+
+    <div class="mt-4">
+      <label>Foto Keuangan yang Sudah Ada</label>
+      <div class="row">
+        {% for foto in keuangan.fotos.all %}
+          <div class="col-md-3 mb-3">
+            <img src="{{ foto.foto_keuangan.url }}" class="img-fluid rounded border" alt="Foto Keuangan">
+            <form action="{% url 'hapus_foto_keuangan' foto.id %}" method="post" class="mt-1">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+            </form>
+          </div>
+        {% empty %}
+          <p class="text-muted">Belum ada foto.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dateInputs = document.querySelectorAll("[data-datepicker]");
+    dateInputs.forEach(function (el) {
+      new Datepicker(el, {
+        format: "dd/mm/yyyy",
+        autohide: true
+      });
+    });
+  });
+</script>
+{% endblock %}

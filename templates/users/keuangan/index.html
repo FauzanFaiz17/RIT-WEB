@@ -49,18 +49,7 @@
               </div>
           </div>
           <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
-              <div class="dropdown">
-                  <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
-                      <span class="visually-hidden">Toggle Dropdown</span>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
-                      <span class="small ps-3 fw-bold text-dark">Show</span>
-                      <a class="dropdown-item d-flex align-items-center fw-bold" href="#">10 <svg class="icon icon-xxs ms-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></a>
-                      <a class="dropdown-item fw-bold" href="#">20</a>
-                      <a class="dropdown-item fw-bold rounded-bottom" href="#">30</a>
-                  </div>
-              </div>
+              
           </div>
       </div>
   </div>
@@ -90,6 +79,7 @@
             </div>
         </div>
 
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
   <div class="card card-body border-0 shadow table-wrapper table-responsive">
     
       <table class="table table-hover">
@@ -99,7 +89,7 @@
                   <th class="border-gray-200">Nama</th>						
                   <th class="border-gray-200">Jenis</th>
                   <th class="border-gray-200">Tanggal</th>
-                  <th class="border-gray-200">Keterangan</th>
+                  <th class="border-gray-200">Bukti</th>
                   <th class="border-gray-200">Jumlah</th>
                   <th class="border-gray-200">Action</th>
               </tr>
@@ -117,7 +107,15 @@
                     {% endif %}
                 </td>
                 <td>{{ item.tanggal }}</td>
-                <td>{{ item.keterangan }}</td>
+                <td>
+                    {% if item.fotos.all %}
+                        {% for foto in item.fotos.all %}
+                            <a href="{{ foto.foto_keuangan.url }}" target="_blank" class="text-primary fw-bold d-block mb-1">Lihat Foto {{ forloop.counter }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <span class="text-muted">-</span>
+                    {% endif %}
+                </td>
                 <td>
                     {% if item.jenis == 'masuk' %}
                     <span class="text-success">Rp {{ item.jumlah|intcomma }}</span>
@@ -126,22 +124,17 @@
                     {% endif %}
                 </td>
                 <td>
-                    <div class="btn-group">
-                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="icon icon-sm">
-                            <span class="fas fa-ellipsis-h icon-dark"></span>
-                        </span>
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu py-0">
-                        <a class="dropdown-item rounded-top" href="{% url 'edit_keuangan' item.id %}">
-                            <span class="fas fa-edit me-2"></span>Edit</a>
-                        <a class="dropdown-item text-danger rounded-bottom" href="{% url 'hapus_keuangan' item.id %}"
-                            onclick="return confirm('Yakin ingin menghapus data ini?');">
-                            <span class="fas fa-trash-alt me-2"></span>Hapus</a>
-                    </div>
-                    </div>
+                    <div class="dropdown">
+                  <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+                      <span class="visually-hidden">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
+                      <span class="small ps-3 fw-bold text-dark">Show</span>
+                      <a class="dropdown-item d-flex align-items-center fw-bold" href="{% url 'edit_keuangan' item.id %}">Edit <svg class="icon icon-xxs ms-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></a>
+                      <a class="dropdown-item fw-bold" href="{% url 'hapus_keuangan' item.id %}" onclick="return confirm('Yakin ingin menghapus data ini?');"><span>Hapus</span>
+                  </div>
+              </div>
                 </td>
             </tr>
             {% empty %}
@@ -180,7 +173,7 @@
           </nav>
           <div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>
       </div>
-      
+      </div>
         </div>
   </div>
 
